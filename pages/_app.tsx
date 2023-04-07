@@ -15,7 +15,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   return (
     <ThemeProvider theme={theme}>
       <style jsx global>{`
-        html {
+        * {
           font-family: ${nunitoSans.style.fontFamily};
         }
       `}</style>

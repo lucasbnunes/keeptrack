@@ -14,11 +14,20 @@ type Color = {
   '950': string;
 };
 
+interface Breakpoints {
+  sm: string;
+  md: string;
+  lg: string;
+  xl: string;
+  '2xl': string;
+}
+
 declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
       blue: Color;
       gray: Color;
     };
+    breakpoints: Breakpoints;
   }
 }
