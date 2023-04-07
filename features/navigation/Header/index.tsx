@@ -1,15 +1,15 @@
-import { Header } from "./styles";
+import { HeaderContainer } from "./styles";
 import { Avatar } from "@/components/Avatar";
 import { Logo } from "@/components/Logo";
 import { AccountMenu } from "../AccountMenu";
 
 
 
-export function Navbar() {
+export function Header() {
   return (
-    <Header>
+    <HeaderContainer>
       <Logo />
       <AccountMenu />
-    </Header>
+    </HeaderContainer>
   )
 }

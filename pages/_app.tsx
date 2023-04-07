@@ -5,6 +5,8 @@ import { theme } from '@/styles/theme'
 import { GlobalStyle } from '@/styles/GlobalStyle'
 import { Nunito_Sans } from 'next/font/google'
 import { Layout } from '@/components/Layout'
+import { NextPage } from 'next'
+import { ReactElement, ReactNode } from 'react'
 
 
 const nunitoSans = Nunito_Sans({
@@ -12,7 +14,16 @@ const nunitoSans = Nunito_Sans({
   subsets: ['latin'],
 })
 
-export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+export type NextPageWithAccess<P = {}, IP = P> = NextPage<P, IP> & {
+  isPublic?: boolean,
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithAccess
+}
+
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
+
   return (
     <ThemeProvider theme={theme}>
       <style jsx global>{`
@@ -22,7 +33,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
       `}</style>
       <GlobalStyle />
       <SessionProvider session={session}>
-        <Layout>
+        <Layout isPublic={Component.isPublic}>
           <Component {...pageProps} />
         </Layout>
       </SessionProvider>

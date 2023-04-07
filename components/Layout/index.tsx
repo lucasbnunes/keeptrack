@@ -1,6 +1,9 @@
-import { Header } from "@/features/navigation/Header/styles";
+
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { Loader } from "../Loader";
+import { LoaderContainer } from "./style";
+import { Header } from "@/features/navigation/Header";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,11 +15,19 @@ export function Layout({ children, isPublic = true }: LayoutProps) {
   const router = useRouter()
 
   if (status === 'loading') {
-    return null
+    return (
+      <LoaderContainer>
+        <Loader />
+      </LoaderContainer>
+    )
   }
 
-  if (status === 'unauthenticated') {
+  if (!isPublic && status === 'unauthenticated') {
     router.push('/')
+  }
+
+  if (isPublic && status === 'authenticated') {
+    router.push('/applications')
   }
 
   return (
