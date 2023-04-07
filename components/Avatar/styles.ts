@@ -27,4 +27,5 @@ export const StyledAvatarFallback = styled(Avatar.Fallback)`
   line-height: 1;
   font-weight: 700;
   border-radius: inherit;
+  text-transform: uppercase;
 `
