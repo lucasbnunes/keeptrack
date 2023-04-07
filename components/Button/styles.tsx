@@ -12,13 +12,14 @@ export const TextButton = styled.button`
   border-radius: 4px;
   transition: background 0.2s ease-in-out;
   font-weight: 600;
+  color: ${({ theme }) => theme.colors.blue[600]};
 
   &:hover {
-    background: ${({ theme }) => theme.colors.gray[50]}
+    background: ${({ theme }) => theme.colors.blue[50]}
   }
 
   &:active {
-    background: ${({ theme }) => theme.colors.gray[100]}
+    background: ${({ theme }) => theme.colors.blue[100]}
   }
 
   & svg {
