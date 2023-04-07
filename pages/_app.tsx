@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components'
 import { theme } from '@/styles/theme'
 import { GlobalStyle } from '@/styles/GlobalStyle'
 import { Nunito_Sans } from 'next/font/google'
+import { Layout } from '@/components/Layout'
 
 
 const nunitoSans = Nunito_Sans({
@@ -21,7 +22,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
       `}</style>
       <GlobalStyle />
       <SessionProvider session={session}>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </SessionProvider>
     </ThemeProvider>
   )
