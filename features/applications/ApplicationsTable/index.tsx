@@ -1,8 +1,11 @@
 import { Button } from "@/components/Button";
 import { StatusChip } from "../StatusChip";
 import { ApplicationsTableBodyRow, ApplicationsTableHeadRow, ApplicationsTableRoot, ApplicationsVerticalCell } from "./style";
+import { useDateFormat } from "@/hooks/useDateFormat";
 
 export function ApplicationsTable() {
+  const { formatToRelativeDate } = useDateFormat()
+
   return (
     <ApplicationsTableRoot>
       <ApplicationsTableHeadRow>
@@ -17,7 +20,7 @@ export function ApplicationsTable() {
           <span>Lorem ipsum</span>
         </ApplicationsVerticalCell>
         <td><StatusChip status="applied" /></td>
-        <td>1 day ago</td>
+        <td>{formatToRelativeDate(new Date())}</td>
         <td><Button>Details</Button></td>
       </ApplicationsTableBodyRow>
     </ApplicationsTableRoot>
