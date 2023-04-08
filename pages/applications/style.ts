@@ -6,17 +6,24 @@ export const ApplicationsContainer = styled.div`
   margin-top: 80px;
   padding: 0 1rem;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints['xl']}) {
+  & > button {
+    margin-left: auto;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints['lg']}) {
     margin-top: 40px;
   }
 `;
 
 export const ApplicationsSearchContainer = styled.div`
   margin: 36px 0;
-  text-align: right;
+  text-align: left;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints['xl']}) {
-    text-align: left;
+  @media (max-width: ${({ theme }) => theme.breakpoints['lg']}) {
     margin: 24px 0;
+
+    & label {
+      width: 100%;
+    }
   }
 `;
