@@ -14,27 +14,29 @@ export const ApplicationsTableRoot = styled.table`
   }
 `;
 
-export const ApplicationsTableHeadRow = styled.tr`
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray[200]};
-  font-size: 0.9375rem;
+export const ApplicationsTableHead = styled.thead`
+  & tr {
+    border-bottom: 1px solid ${({ theme }) => theme.colors.gray[200]};
+    font-size: 0.9375rem;
 
-  & th {
-    padding-bottom: 8px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.colors.gray[700]};
-    text-align: left;
-    min-width: 170px;
-  }
+    & th {
+      padding-bottom: 8px;
+      font-weight: 400;
+      color: ${({ theme }) => theme.colors.gray[700]};
+      text-align: left;
+      min-width: 170px;
+    }
 
-  & th:first-child {
-    min-width: 300px;
+    & th:first-child {
+      min-width: 300px;
+    }
   }
 `;
 
-export const ApplicationsTableBodyRow = styled.tr`
+export const ApplicationsTableBody = styled.tbody`
   & td {
-    vertical-align: top;
     padding-top: 16px;
+    vertical-align: top;
   }
 `;
 
