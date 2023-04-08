@@ -47,4 +47,6 @@ export const StatusChipContainer = styled.span<StatusChipContainerProps>`
   background: ${({ status }) => STATUS_COLOR_MAP[status].background};
   color: ${({ status }) => STATUS_COLOR_MAP[status].color};
   border-radius: 99px;
+  align-self: center;
+  white-space: nowrap;
 `;
