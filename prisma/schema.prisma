@@ -11,25 +11,24 @@ datasource db {
 }
 
 model Application {
-  id        String   @id @default(cuid())
-  company   String
-  position  String
-  notes     String?  @db.Text
-  status    Status   @default(not_applied)
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  createdAt DateTime
-  updatedAt DateTime @updatedAt
+  id              String   @id @default(cuid())
+  company         String
+  title           String
+  notes           String?  @db.Text
+  status          Status   @default(applied)
+  user            User     @relation(fields: [userId], references: [id])
+  userId          String
+  applicationDate DateTime
+  createdAt       DateTime
+  updatedAt       DateTime @updatedAt
 }
 
 enum Status {
-  not_applied
-  waiting
   applied
   offer_received
-  accepted
-  refused
+  offer_refused
   not_selected
+  hired
 }
 
 model User {
