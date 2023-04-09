@@ -5,5 +5,5 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Button({ children, ...props }: ButtonProps) {
-  return <TextButton>{children}</TextButton>
+  return <TextButton {...props}>{children}</TextButton>
 }
