@@ -17,12 +17,18 @@ export const InputLabel = styled.label<InpoutLabelProps>`
     color: ${({ theme }) => theme.colors.gray[700]};
   }
 
-  & input {
+  & input[type='date'] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    width: 100%;
+  }
+
+  & input,
+  & textarea {
     font-size: 1rem;
     padding: 8px 12px;
     border-radius: 4px;
-    /*background-color: ${({ theme }) => theme.colors.gray[50]};*/
-
     border: 1px solid ${({ theme }) => theme.colors.gray[100]};
     min-width: 200px;
     color: ${({ theme }) => theme.colors.gray[800]};
@@ -32,10 +38,20 @@ export const InputLabel = styled.label<InpoutLabelProps>`
     }
 
     &:focus {
-      /*background-color: ${({ theme }) => theme.colors.blue[50]};*/
       outline: 2px solid ${({ theme }) => theme.colors.blue[200]};
       border-color: transparent;
-      /*outline: none;*/
     }
+  }
+
+  & input[type='date'] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    width: 100%;
+  }
+
+  & textarea {
+    min-height: 180px;
+    resize: none;
   }
 `;
