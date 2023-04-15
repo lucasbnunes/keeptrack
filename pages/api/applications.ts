@@ -47,6 +47,9 @@ export default async function handler(
         where: {
           userId: user.id,
         },
+        orderBy: {
+          updatedAt: 'desc',
+        },
       });
 
       res.status(200).send(applications);
