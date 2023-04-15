@@ -30,6 +30,14 @@ export function useDateFormat() {
     });
     const { difference, unit } = getTimeDifference(date);
 
+    const today = new Date();
+
+    if (unit === 'hours' && today.getUTCDate() === date.getUTCDate()) {
+      return 'today';
+    } else if (unit === 'hours' && today.getUTCDate() !== date.getUTCDate()) {
+      return 'yesterday';
+    }
+
     const relativeTime = relativeTimeFormatter.format(difference, unit as any);
 
     return relativeTime;
