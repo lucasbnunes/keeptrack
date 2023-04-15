@@ -9,49 +9,49 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session = await getServerSession(req, res, authOptions);
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session?.user.id,
+    },
+  });
 
-  const allowedMethods = ['GET', 'POST', 'PUT'];
-
-  if (!session) {
+  if (!session || !user) {
     res.status(401).send({
       message: 'You must be signed in to access this route',
     });
-  }
-
-  if (!req.method || !allowedMethods.includes(req.method)) {
-    res.status(405).json({ error: 'Method not allowed' });
+    return;
   }
 
   switch (req.method) {
     case 'POST':
-      const user = await prisma.user.findUnique({
-        where: {
-          id: session?.user.id,
+      const application = await prisma.application.create({
+        data: {
+          company: req.body.company,
+          title: req.body.title,
+          notes: req.body.notes,
+          status: 'applied',
+          createdAt: new Date(),
+          applicationDate: req.body.applicationDate,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
         },
       });
 
-      if (user) {
-        const application = await prisma.application.create({
-          data: {
-            company: req.body.company,
-            title: req.body.title,
-            notes: req.body.notes,
-            status: 'applied',
-            createdAt: new Date(),
-            applicationDate: req.body.applicationDate,
-            user: {
-              connect: {
-                id: user.id,
-              },
-            },
-          },
-        });
+      res.status(201).send(application);
+      break;
+    case 'GET':
+      const applications = await prisma.application.findMany({
+        where: {
+          userId: user.id,
+        },
+      });
 
-        res.status(201).send(application);
-      } else {
-        res.status(404).json({ error: 'User not found' });
-      }
-
+      res.status(200).send(applications);
+      break;
     default:
+      res.status(405).json({ error: 'Method not allowed' });
   }
 }
