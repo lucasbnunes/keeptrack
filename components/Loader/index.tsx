@@ -1,5 +1,10 @@
 import { AnimatedLoader } from "./style";
 
-export function Loader() {
-  return <AnimatedLoader />
+interface LoaderProps {
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
 }
+
+export function Loader({ size = 'md', className }: LoaderProps) {
+  return <AnimatedLoader size={size} className={className} />;
+} 

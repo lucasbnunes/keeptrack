@@ -17,7 +17,7 @@ export function Layout({ children, isPublic = true }: LayoutProps) {
   if (status === 'loading') {
     return (
       <LoaderContainer>
-        <Loader />
+        <Loader size="lg" />
       </LoaderContainer>
     )
   }

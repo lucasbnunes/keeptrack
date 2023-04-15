@@ -1,5 +1,15 @@
 import styled, { keyframes } from 'styled-components';
 
+interface AnimatedLoaderProps {
+  size: 'sm' | 'md' | 'lg';
+}
+
+const SIZE_MAP = {
+  sm: '18',
+  md: '32',
+  lg: '48',
+};
+
 const rotation = keyframes`
   from {
     transform: rotate(0deg);
@@ -9,9 +19,9 @@ const rotation = keyframes`
   }
 `;
 
-export const AnimatedLoader = styled.span`
-  width: 48px;
-  height: 48px;
+export const AnimatedLoader = styled.span<AnimatedLoaderProps>`
+  width: ${({ size }) => SIZE_MAP[size]}px;
+  height: ${({ size }) => SIZE_MAP[size]}px;
   border-radius: 50%;
   display: inline-block;
   position: relative;
@@ -30,8 +40,8 @@ export const AnimatedLoader = styled.span`
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 44px;
-    height: 44px;
+    width: ${({ size }) => `calc(${SIZE_MAP[size]}px - 10%)`};
+    height: ${({ size }) => `calc(${SIZE_MAP[size]}px - 10%)`};
     border-radius: 50%;
     background: white;
   }
