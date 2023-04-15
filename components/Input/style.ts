@@ -41,6 +41,11 @@ export const InputLabel = styled.label<InpoutLabelProps>`
       outline: 2px solid ${({ theme }) => theme.colors.blue[200]};
       border-color: transparent;
     }
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: ${({ theme }) => theme.colors.gray[50]};
+    }
   }
 
   & input[type='date'] {
@@ -48,6 +53,10 @@ export const InputLabel = styled.label<InpoutLabelProps>`
     appearance: none;
     background: none;
     width: 100%;
+
+    &:disabled {
+      background-color: ${({ theme }) => theme.colors.gray[50]};
+    }
   }
 
   & textarea {

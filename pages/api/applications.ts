@@ -31,7 +31,7 @@ export default async function handler(
           notes: req.body.notes,
           status: 'applied',
           createdAt: new Date(),
-          applicationDate: req.body.applicationDate,
+          applicationDate: new Date(req.body.applicationDate),
           user: {
             connect: {
               id: user.id,
