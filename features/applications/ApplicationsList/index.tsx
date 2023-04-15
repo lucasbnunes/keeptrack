@@ -1,43 +1,29 @@
 import { useDateFormat } from "@/hooks/useDateFormat";
 import { StatusChip } from "../StatusChip";
 import { ApplicationListItem, ApplicationListItemInfo, ApplicationListItemTitle, ApplicationListRoot } from "./style";
+import { Application } from "@prisma/client";
 
-export function ApplicationsList() {
+interface ApplicationListProps {
+  applications: Application[]
+}
+
+export function ApplicationsList({ applications }: ApplicationListProps) {
   const { formatToRelativeDate } = useDateFormat()
 
   return (
     <ApplicationListRoot>
-      <ApplicationListItem>
-        <ApplicationListItemTitle>
-          <span>Front-end Developer</span>
-          <span>Lorem ipsum</span>
-        </ApplicationListItemTitle>
-        <ApplicationListItemInfo>
-          <span>{formatToRelativeDate(new Date('2023-04-06'))}</span>
-          <StatusChip status="applied" />
-        </ApplicationListItemInfo>
-      </ApplicationListItem>
-      <ApplicationListItem>
-        <ApplicationListItemTitle>
-          <span>Front-end Developer</span>
-          <span>Lorem ipsum</span>
-        </ApplicationListItemTitle>
-        <ApplicationListItemInfo>
-          <span>{formatToRelativeDate(new Date('2023-04-06'))}</span>
-          <StatusChip status="applied" />
-        </ApplicationListItemInfo>
-      </ApplicationListItem>
-      <ApplicationListItem>
-        <ApplicationListItemTitle>
-          <span>Front-end Developer</span>
-          <span>Lorem ipsum</span>
-        </ApplicationListItemTitle>
-        <ApplicationListItemInfo>
-          <span>{formatToRelativeDate(new Date('2023-04-06'))}</span>
-          <StatusChip status="applied" />
-        </ApplicationListItemInfo>
-      </ApplicationListItem>
-
+      {applications.map((application) => (
+        <ApplicationListItem key={application.id}>
+          <ApplicationListItemTitle>
+            <span>{application.title}</span>
+            <span>{application.company}</span>
+          </ApplicationListItemTitle>
+          <ApplicationListItemInfo>
+            <span>{formatToRelativeDate(new Date(application.applicationDate))}</span>
+            <StatusChip status={application.status} />
+          </ApplicationListItemInfo>
+        </ApplicationListItem>
+      ))}
     </ApplicationListRoot>
   )
 }
