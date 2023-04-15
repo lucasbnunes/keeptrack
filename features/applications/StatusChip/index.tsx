@@ -1,12 +1,12 @@
+import { Application } from "@prisma/client"
 import { StatusChipContainer } from "./style"
 
-type Status = 'applied' | 'offer_received' | 'hired' | 'offer_refused' | 'not_selected'
 
 interface StatusChipProps {
-  status: Status
+  status: Application['status']
 }
 
-const STATUS_MAP: { [K in Status]: string } = {
+const STATUS_MAP: { [K in Application['status']]: string } = {
   applied: 'Applied',
   offer_received: 'Offer Received',
   hired: 'Hired',

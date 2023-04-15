@@ -1,19 +1,13 @@
 import { theme } from '@/styles/theme';
+import { Application } from '@prisma/client';
 import styled from 'styled-components';
 
-type Status =
-  | 'applied'
-  | 'offer_received'
-  | 'hired'
-  | 'offer_refused'
-  | 'not_selected';
-
 interface StatusChipContainerProps {
-  status: Status;
+  status: Application['status'];
 }
 
 type StatusColorMap = {
-  [K in Status]: {
+  [K in Application['status']]: {
     background: string;
     color: string;
   };
