@@ -7,7 +7,11 @@ export const ButtonLoader = styled(Loader)`
   }
 `;
 
-export const TextButton = styled.button`
+interface ButtonProps {
+  variant: 'text' | 'solid';
+}
+
+export const StyledButton = styled.button<ButtonProps>`
   background: none;
   border: none;
   cursor: pointer;
@@ -40,4 +44,19 @@ export const TextButton = styled.button`
     width: 1.25rem;
     height: 1.25rem;
   }
+
+  ${({ theme, variant }) =>
+    variant === 'solid' &&
+    `
+    color: white;
+    background: ${theme.colors.blue[600]};
+
+    &:hover:not(:disabled) {
+      background: ${theme.colors.blue[700]};
+    }
+
+    &:active {
+      background: ${theme.colors.blue[800]};
+    }
+    `}
 `;

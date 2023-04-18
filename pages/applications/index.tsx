@@ -38,7 +38,7 @@ export default function Applications() {
     <ApplicationsContainer>
       <NewApplicationModal open={open} setOpen={setOpen} />
 
-      <Button onClick={() => setOpen(true)}>
+      <Button onClick={() => setOpen(true)} variant="solid">
         <PlusIcon /> New application
       </Button>
 

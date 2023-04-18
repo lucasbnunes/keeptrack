@@ -1,15 +1,15 @@
 import { Loader } from "../Loader";
-import { ButtonLoader, TextButton } from "./style";
+import { ButtonLoader, StyledButton } from "./style";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   loading?: boolean;
+  variant?: 'text' | 'solid';
 }
 
-export function Button({ children, loading, ...props }: ButtonProps) {
-  return <TextButton disabled={loading} {...props} >
+export function Button({ children, loading, variant = 'text', ...props }: ButtonProps) {
+  return <StyledButton disabled={loading} variant={variant} {...props} >
     {children}
-
     {loading && <ButtonLoader size="sm" />}
-  </TextButton>
+  </StyledButton>
 }
