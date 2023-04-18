@@ -1,6 +1,6 @@
 import { Button } from "@/components/Button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { ApplicationsContainer, ApplicationsLoaderContainer, ApplicationsSearchForm } from "./style";
+import { ApplicationsContainer, ApplicationsLoaderContainer, ApplicationsSearchForm } from "@/features/applications/applicationsPageStyle";
 import { SearchInput } from "@/components/SearchInput";
 import { ApplicationsTable } from "@/features/applications/ApplicationsTable";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
