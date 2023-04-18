@@ -46,6 +46,24 @@ export default async function handler(
       const applications = await prisma.application.findMany({
         where: {
           userId: user.id,
+          ...(req.query.search
+            ? {
+                OR: [
+                  {
+                    company: {
+                      contains: (req.query.search as string) || undefined,
+                      mode: 'insensitive',
+                    },
+                  },
+                  {
+                    title: {
+                      contains: (req.query.search as string) || undefined,
+                      mode: 'insensitive',
+                    },
+                  },
+                ],
+              }
+            : {}),
         },
         orderBy: {
           updatedAt: 'desc',

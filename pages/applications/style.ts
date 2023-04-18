@@ -15,7 +15,7 @@ export const ApplicationsContainer = styled.div`
   }
 `;
 
-export const ApplicationsSearchContainer = styled.div`
+export const ApplicationsSearchForm = styled.form`
   margin: 36px 0;
   text-align: left;
 

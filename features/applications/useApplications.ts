@@ -2,9 +2,12 @@ import { api } from '@/api/client';
 import { Application } from '@prisma/client';
 import { useQuery } from 'react-query';
 
-export function useApplications() {
-  const getApplications = useQuery('applications', async () => {
-    const { data } = await api.get<Application[]>('/applications');
+export function useApplications(search?: string) {
+  console.log(search);
+  const getApplications = useQuery(['applications', search], async (search) => {
+    const { data } = await api.get<Application[]>('/applications', {
+      params: search.queryKey[1] ? { search: search.queryKey[1] } : undefined,
+    });
     return data;
   });
 

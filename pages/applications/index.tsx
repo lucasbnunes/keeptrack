@@ -1,6 +1,6 @@
 import { Button } from "@/components/Button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { ApplicationsContainer, ApplicationsLoaderContainer, ApplicationsSearchContainer } from "./style";
+import { ApplicationsContainer, ApplicationsLoaderContainer, ApplicationsSearchForm } from "./style";
 import { SearchInput } from "@/components/SearchInput";
 import { ApplicationsTable } from "@/features/applications/ApplicationsTable";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -9,10 +9,22 @@ import { useState } from "react";
 import { useApplications } from "@/features/applications/useApplications";
 import { Loader } from "@/components/Loader";
 import { ApplicationsList } from "@/features/applications/ApplicationsList";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+interface SearchForm {
+  search: string
+}
+
 export default function Applications() {
   const { minWidth } = useMediaQuery()
   const [open, setOpen] = useState(false)
-  const { data, isLoading } = useApplications()
+  const [search, setSearch] = useState('')
+  const { data, isLoading } = useApplications(search)
+  const { register, handleSubmit } = useForm<SearchForm>();
+
+  const onSubmit: SubmitHandler<SearchForm> = async (data) => {
+    setSearch(data.search)
+  }
 
   if (isLoading) {
     return (
@@ -30,9 +42,9 @@ export default function Applications() {
         <PlusIcon /> New application
       </Button>
 
-      <ApplicationsSearchContainer>
-        <SearchInput placeholder="Search by company or job title" />
-      </ApplicationsSearchContainer>
+      <ApplicationsSearchForm onSubmit={handleSubmit(onSubmit)}>
+        <SearchInput placeholder="Search by company or job title" inputProps={{ ...register('search') }} />
+      </ApplicationsSearchForm>
 
       {data && data?.length > 0 &&
         (

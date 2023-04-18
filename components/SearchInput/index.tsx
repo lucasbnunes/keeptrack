@@ -4,13 +4,14 @@ import { SearchLabel } from "./style";
 interface SearchInputProps {
   placeholder: string;
   className?: string;
+  inputProps?: React.HTMLProps<HTMLInputElement>
 }
 
-export function SearchInput({ className, placeholder }: SearchInputProps) {
+export function SearchInput({ className, placeholder, inputProps }: SearchInputProps) {
   return (
     <SearchLabel aria-label={placeholder} className={className}>
       <MagnifyingGlassIcon />
-      <input placeholder={placeholder} />
+      <input {...inputProps} placeholder={placeholder} />
     </SearchLabel>
   )
 }
