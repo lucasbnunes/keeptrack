@@ -1,4 +1,4 @@
-import { api } from '@/api/client';
+import { api } from '@/utils/client';
 import { Application } from '@prisma/client';
 import { useQuery } from 'react-query';
 
