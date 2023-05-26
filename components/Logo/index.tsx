@@ -1,11 +1,17 @@
-import { LinkProps } from "next/link";
-import { StyledLogo } from "./styles";
+import { AnchorLogo, LogoContainer } from "./styles";
 
 interface LogoProps {
   className?: string;
+  href?: string;
 }
-export function Logo({ className }: LogoProps) {
-  return <StyledLogo href="/applications" className={className}>
-    <img src="/prohunt.png" alt="prohunt logo" />
-  </StyledLogo>
+export function Logo({ className, href }: LogoProps) {
+  if (!href) {
+    return <LogoContainer className={className}>
+      <img src="/keeptrack.png" alt="keeptrack logo" />
+    </LogoContainer>
+  }
+
+  return <AnchorLogo href="/applications" className={className}>
+    <img src="/keeptrack.png" alt="keeptrack logo" />
+  </AnchorLogo>
 }
