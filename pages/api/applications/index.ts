@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
-import { authOptions } from './auth/[...nextauth]';
+import { authOptions } from '../auth/[...nextauth]';
 import { prisma } from '@/lib/prisma';
 
 export default async function handler(
@@ -11,7 +11,7 @@ export default async function handler(
   const session = await getServerSession(req, res, authOptions);
   const user = await prisma.user.findUnique({
     where: {
-      id: session?.user.id,
+      id: session?.user.id || '',
     },
   });
 
@@ -23,7 +23,7 @@ export default async function handler(
   }
 
   switch (req.method) {
-    case 'POST':
+    case 'POST': {
       const application = await prisma.application.create({
         data: {
           company: req.body.company,
@@ -42,7 +42,8 @@ export default async function handler(
 
       res.status(201).send(application);
       break;
-    case 'GET':
+    }
+    case 'GET': {
       const applications = await prisma.application.findMany({
         where: {
           userId: user.id,
@@ -72,6 +73,7 @@ export default async function handler(
 
       res.status(200).send(applications);
       break;
+    }
     default:
       res.status(405).json({ error: 'Method not allowed' });
   }
