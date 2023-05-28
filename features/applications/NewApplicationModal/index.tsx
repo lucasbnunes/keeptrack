@@ -11,6 +11,9 @@ interface ApplicationModal {
   setOpen: (open: boolean) => void;
 }
 
+const tzOffsetInMilliseconds = (new Date()).getTimezoneOffset() * 60000
+const DEFAULT_APPLICATION_DATE = new Date(Date.now() - tzOffsetInMilliseconds).toISOString().slice(0, 10)
+
 export function NewApplicationModal({ open, setOpen }: ApplicationModal) {
   const applicationMutation = useApplicationMutation()
   const { register, handleSubmit, formState: { errors }, reset } = useForm<NewApplication>();
@@ -34,7 +37,7 @@ export function NewApplicationModal({ open, setOpen }: ApplicationModal) {
           <Input label='Company' fullWidth inputProps={{ ...register("company", { required: true }), disabled: applicationMutation.isLoading }} />
           <Input
             label='Application date'
-            inputProps={{ ...register("applicationDate", { required: true }), type: 'date', defaultValue: new Date().toISOString().slice(0, 10), disabled: applicationMutation.isLoading }}
+            inputProps={{ ...register("applicationDate", { required: true }), type: 'date', defaultValue: DEFAULT_APPLICATION_DATE, disabled: applicationMutation.isLoading }}
             fullWidth
           />
           <Input label='Notes' multiline fullWidth inputProps={{ ...register("notes"), disabled: applicationMutation.isLoading }} />

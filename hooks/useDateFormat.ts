@@ -1,7 +1,11 @@
 export function useDateFormat() {
   function getTimeDifference(date: Date): { difference: number; unit: string } {
+    const tzOffsetInMilliseconds = new Date().getTimezoneOffset() * 60000;
+
     // calculate the time difference in milliseconds
-    const diffMs = Math.abs(new Date().getTime() - date.getTime());
+    const diffMs = Math.abs(
+      new Date().getTime() - tzOffsetInMilliseconds - date.getTime()
+    );
 
     // define the thresholds for each unit of time
     const thresholds = [
@@ -32,9 +36,9 @@ export function useDateFormat() {
 
     const today = new Date();
 
-    if (unit === 'hours' && today.getUTCDate() === date.getUTCDate()) {
+    if (unit === 'hours' && today.getDate() === date.getUTCDate()) {
       return 'today';
-    } else if (unit === 'hours' && today.getUTCDate() !== date.getUTCDate()) {
+    } else if (unit === 'hours' && today.getDate() !== date.getUTCDate()) {
       return 'yesterday';
     }
 
