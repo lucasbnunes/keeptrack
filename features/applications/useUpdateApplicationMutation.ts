@@ -34,11 +34,14 @@ export function useUpdateApplicationMutation() {
           );
 
           const newApplications = [...previousApplications];
-
-          newApplications[updatedApplicationIndex] = {
-            ...newApplications[updatedApplicationIndex],
+          const [removedApplication] = newApplications.splice(
+            updatedApplicationIndex,
+            1
+          );
+          newApplications.unshift({
+            ...removedApplication,
             ...updatedApplication,
-          };
+          });
 
           queryClient.setQueryData(['applications', ''], newApplications);
           return { previousApplications, newApplications };
