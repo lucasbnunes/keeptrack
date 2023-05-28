@@ -9,7 +9,7 @@ export const ApplicationListRoot = styled.ul`
 export const ApplicationListItem = styled.li`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /*align-items: center;*/
   padding: 8px 12px;
   border-radius: 6px;
 
