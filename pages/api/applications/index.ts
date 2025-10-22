@@ -1,35 +1,37 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]';
-import { prisma } from '@/lib/prisma';
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { convertIncomingHttpHeadersToHeaders } from "@/utils/convertHeaders";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
-  const session = await getServerSession(req, res, authOptions);
+  const session = await auth.api.getSession({
+    headers: convertIncomingHttpHeadersToHeaders(req.headers),
+  });
   const user = await prisma.user.findUnique({
     where: {
-      id: session?.user.id || '',
+      id: session?.user.id || "",
     },
   });
 
   if (!session || !user) {
     res.status(401).send({
-      message: 'You must be signed in to access this route',
+      message: "You must be signed in to access this route",
     });
     return;
   }
 
   switch (req.method) {
-    case 'POST': {
+    case "POST": {
       const application = await prisma.application.create({
         data: {
           company: req.body.company,
           title: req.body.title,
           notes: req.body.notes,
-          status: 'applied',
+          status: "applied",
           createdAt: new Date(),
           applicationDate: new Date(req.body.applicationDate),
           user: {
@@ -43,7 +45,7 @@ export default async function handler(
       res.status(201).send(application);
       break;
     }
-    case 'GET': {
+    case "GET": {
       const applications = await prisma.application.findMany({
         where: {
           userId: user.id,
@@ -53,13 +55,13 @@ export default async function handler(
                   {
                     company: {
                       contains: (req.query.search as string) || undefined,
-                      mode: 'insensitive',
+                      mode: "insensitive",
                     },
                   },
                   {
                     title: {
                       contains: (req.query.search as string) || undefined,
-                      mode: 'insensitive',
+                      mode: "insensitive",
                     },
                   },
                 ],
@@ -67,7 +69,7 @@ export default async function handler(
             : {}),
         },
         orderBy: {
-          updatedAt: 'desc',
+          updatedAt: "desc",
         },
       });
 
@@ -75,6 +77,6 @@ export default async function handler(
       break;
     }
     default:
-      res.status(405).json({ error: 'Method not allowed' });
+      res.status(405).json({ error: "Method not allowed" });
   }
 }

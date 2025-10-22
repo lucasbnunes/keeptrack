@@ -1,37 +1,39 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]';
-import { prisma } from '@/lib/prisma';
+import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { convertIncomingHttpHeadersToHeaders } from "@/utils/convertHeaders";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
-  const session = await getServerSession(req, res, authOptions);
+  const session = await auth.api.getSession({
+    headers: convertIncomingHttpHeadersToHeaders(req.headers),
+  });
   const user = await prisma.user.findUnique({
     where: {
-      id: session?.user.id || '',
+      id: session?.user.id || "",
     },
   });
   const { id: applicationId } = req.query;
 
   if (!session || !user) {
     res.status(401).send({
-      message: 'You must be signed in to access this route',
+      message: "You must be signed in to access this route",
     });
     return;
   }
 
   if (!applicationId) {
     res.status(404).send({
-      message: 'Application not found',
+      message: "Application not found",
     });
     return;
   }
 
   switch (req.method) {
-    case 'PUT': {
+    case "PUT": {
       const application = await prisma.application.update({
         data: {
           title: req.body.title,
@@ -48,6 +50,6 @@ export default async function handler(
       break;
     }
     default:
-      res.status(405).json({ error: 'Method not allowed' });
+      res.status(405).json({ error: "Method not allowed" });
   }
 }
