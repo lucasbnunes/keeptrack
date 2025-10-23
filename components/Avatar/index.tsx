@@ -1,5 +1,9 @@
-import { useSession } from "next-auth/react";
-import { StyledAvatarRoot, StyledAvatarImage, StyledAvatarFallback } from "./styles";
+import {
+  StyledAvatarRoot,
+  StyledAvatarImage,
+  StyledAvatarFallback,
+} from "./styles";
+import { authClient } from "@/lib/auth-client";
 
 interface AvatarProps {
   className?: string;
@@ -19,14 +23,22 @@ function getInitials(name: string) {
 }
 
 export function Avatar({ className }: AvatarProps) {
-  const { data } = useSession()
+  const { useSession } = authClient;
+  const session = useSession();
 
-  const initials = getInitials(data?.user?.name || "")
+  if (session.isPending) {
+    return <></>;
+  }
+
+  const initials = getInitials(session?.data?.user.name || "");
 
   return (
     <StyledAvatarRoot className={className}>
-      <StyledAvatarImage src={data?.user?.image || ""} alt={data?.user?.name || ""} />
+      <StyledAvatarImage
+        src={session?.data?.user?.image || ""}
+        alt={session?.data?.user.name || ""}
+      />
       <StyledAvatarFallback>{initials}</StyledAvatarFallback>
     </StyledAvatarRoot>
-  )
+  );
 }

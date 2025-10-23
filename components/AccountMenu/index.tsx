@@ -1,3 +1,4 @@
+"use client";
 import { Avatar } from "@/components/Avatar";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
