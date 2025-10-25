@@ -1,17 +1,24 @@
 import { NewApplicationModal } from "@/features/applications/NewApplicationDialog";
 import { ApplicationsContainer } from "@/features/applications/applicationsPageStyle";
+import { getApplications } from "@/features/applications/service";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
-export default function Applications() {
+export default async function Applications() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return;
+  }
+
+  const applications = await getApplications(session?.user.id);
+
   return (
     <ApplicationsContainer>
       <NewApplicationModal />
 
-      {/*<ApplicationsSearchForm onSubmit={handleSubmit(onSubmit)}>
-        <SearchInput
-          placeholder="Search by company or job title"
-          inputProps={{ ...register("search") }}
-        />
-      </ApplicationsSearchForm>*/}
       {/*{data &&
         data?.length > 0 &&
         (minWidth("lg") ? (
