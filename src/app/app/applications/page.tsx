@@ -1,4 +1,5 @@
 import { NewApplicationModal } from "@/features/applications/NewApplicationDialog";
+import { ResponsiveApplications } from "@/features/applications/ResponsiveApplications";
 import { ApplicationsContainer } from "@/features/applications/applicationsPageStyle";
 import { getApplications } from "@/features/applications/service";
 import { auth } from "@/lib/auth";
@@ -19,13 +20,7 @@ export default async function Applications() {
     <ApplicationsContainer>
       <NewApplicationModal />
 
-      {/*{data &&
-        data?.length > 0 &&
-        (minWidth("lg") ? (
-          <ApplicationsTable applications={data} />
-        ) : (
-          <ApplicationsList applications={data} />
-        ))}*/}
+      <ResponsiveApplications applications={applications} />
     </ApplicationsContainer>
   );
 }

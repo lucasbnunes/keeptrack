@@ -1,13 +1,15 @@
-import { theme } from '@/styles/theme';
-import { useEffect, useState } from 'react';
-import { DefaultTheme } from 'styled-components';
+"use client";
+
+import { theme } from "@/styles/theme";
+import { useEffect, useState } from "react";
+import { DefaultTheme } from "styled-components";
 
 interface WindowDimensions {
   width?: number;
   height?: number;
 }
 
-type Breakpoints = keyof DefaultTheme['breakpoints'];
+type Breakpoints = keyof DefaultTheme["breakpoints"];
 
 export function useMediaQuery() {
   const [windowSize, setWindowSize] = useState<WindowDimensions>({
@@ -23,10 +25,10 @@ export function useMediaQuery() {
       });
     }
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   function minWidth(breakpoint: Breakpoints) {
