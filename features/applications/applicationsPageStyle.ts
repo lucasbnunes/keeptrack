@@ -17,19 +17,6 @@ export const ApplicationsContainer = styled.div`
   }
 `;
 
-export const ApplicationsSearchForm = styled.form`
-  margin: 36px 0;
-  text-align: left;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints["lg"]}) {
-    margin: 24px 0;
-
-    & label {
-      width: 100%;
-    }
-  }
-`;
-
 export const ApplicationsLoaderContainer = styled.div`
   height: 100%;
   display: flex;
