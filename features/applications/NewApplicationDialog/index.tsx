@@ -2,6 +2,7 @@
 
 import { Input } from "@/components/Input";
 // import { Modal } from "@/components/Modal";
+import { Button } from "@/components/Button";
 import {
   Dialog,
   DialogClose,
@@ -12,16 +13,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/Dialog";
-import { NewApplicationForm } from "./style";
-import { Button } from "@/components/Button";
-import { useForm } from "react-hook-form";
-import { SubmitHandler } from "react-hook-form/dist/types";
-import {
-  NewApplication,
-  useApplicationMutation,
-} from "../useApplicationMutation";
-import { useState } from "react";
 import { PlusIcon } from "@radix-ui/react-icons";
+import { useActionState, useEffect, useState } from "react";
+import { createApplication } from "../actions";
 
 const tzOffsetInMilliseconds = new Date().getTimezoneOffset() * 60000;
 const DEFAULT_APPLICATION_DATE = new Date(Date.now() - tzOffsetInMilliseconds)
@@ -30,23 +24,15 @@ const DEFAULT_APPLICATION_DATE = new Date(Date.now() - tzOffsetInMilliseconds)
 
 export function NewApplicationModal() {
   const [open, setOpen] = useState(false);
-  const applicationMutation = useApplicationMutation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<NewApplication>();
+  const [state, submitAction, isPending] = useActionState(createApplication, {
+    status: 200,
+  });
 
-  const onSubmit: SubmitHandler<NewApplication> = async (data) => {
-    try {
-      await applicationMutation.mutateAsync({ ...data, status: "applied" });
+  useEffect(() => {
+    if (state.status === 200) {
       setOpen(false);
-      reset();
-    } catch (err) {
-      console.error(err);
     }
-  };
+  }, [state]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -58,35 +44,27 @@ export function NewApplicationModal() {
       <DialogPortal>
         <DialogOverlay />
         <DialogContent>
-          <DialogClose onClick={() => setOpen(false)} />
-          <DialogTitle>New Application</DialogTitle>
-          <NewApplicationForm
-            id="applicationForm"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <form action={submitAction}>
+            <DialogClose onClick={() => setOpen(false)} />
+            <DialogTitle>New Application</DialogTitle>
+
             <Input
               label="Job title"
               fullWidth
-              inputProps={{
-                ...register("title", { required: true }),
-                disabled: applicationMutation.isLoading,
-              }}
+              inputProps={{ disabled: isPending, name: "title" }}
             />
             <Input
               label="Company"
               fullWidth
-              inputProps={{
-                ...register("company", { required: true }),
-                disabled: applicationMutation.isLoading,
-              }}
+              inputProps={{ disabled: isPending, name: "company" }}
             />
             <Input
               label="Application date"
               inputProps={{
-                ...register("applicationDate", { required: true }),
                 type: "date",
                 defaultValue: DEFAULT_APPLICATION_DATE,
-                disabled: applicationMutation.isLoading,
+                disabled: isPending,
+                name: "applicationDate",
               }}
               fullWidth
             />
@@ -94,22 +72,15 @@ export function NewApplicationModal() {
               label="Notes"
               multiline
               fullWidth
-              inputProps={{
-                ...register("notes"),
-                disabled: applicationMutation.isLoading,
-              }}
+              inputProps={{ disabled: isPending, name: "notes" }}
             />
-          </NewApplicationForm>
-          <DialogFooter>
-            <Button
-              type="submit"
-              form="applicationForm"
-              loading={applicationMutation.isLoading}
-            >
-              {" "}
-              Save
-            </Button>
-          </DialogFooter>
+
+            <DialogFooter>
+              <Button type="submit" loading={isPending}>
+                Save
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </DialogPortal>
     </Dialog>
