@@ -14,13 +14,13 @@ import {
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
 import { Application, Status } from "@prisma/client";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useActionState, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { updateApplication } from "../actions";
 import {
   UpdateApplication,
   useUpdateApplicationMutation,
 } from "../useUpdateApplicationMutation";
-import { UpdateApplicationForm } from "./style";
-import { useState } from "react";
 
 interface UpdateApplicationModalProps {
   application: Application;
@@ -69,21 +69,23 @@ export function UpdateApplicationDialog({
 
   const {
     register,
-    handleSubmit,
     formState: { errors },
     reset,
     control,
   } = useForm<UpdateApplication>({ defaultValues });
-  const applicationMutation = useUpdateApplicationMutation();
+  const [actionState, submitAction, isPending] = useActionState(
+    updateApplication,
+    {
+      status: 200,
+    },
+  );
 
-  const onSubmit: SubmitHandler<UpdateApplication> = async (data) => {
-    try {
-      await applicationMutation.mutateAsync({ ...data, id: application.id });
-      handleClose();
-    } catch (err) {
-      console.error(err);
+  useEffect(() => {
+    console.log(actionState);
+    if (actionState.status === 200) {
+      setOpen(false);
     }
-  };
+  }, [actionState]);
 
   function handleClose() {
     setOpen(false);
@@ -98,16 +100,17 @@ export function UpdateApplicationDialog({
       <DialogPortal>
         <DialogOverlay />
         <DialogContent>
-          <UpdateApplicationForm onSubmit={handleSubmit(onSubmit)}>
+          <form action={submitAction}>
             <DialogClose onClick={() => setOpen(false)} />
             <DialogTitle>Edit application</DialogTitle>
 
+            <input name="id" value={application.id} hidden />
             <Input
               label="Job title"
               fullWidth
               inputProps={{
                 ...register("title", { required: true }),
-                disabled: applicationMutation.isLoading,
+                disabled: isPending,
               }}
             />
             <Input
@@ -115,7 +118,7 @@ export function UpdateApplicationDialog({
               fullWidth
               inputProps={{
                 ...register("company", { required: true }),
-                disabled: applicationMutation.isLoading,
+                disabled: isPending,
               }}
             />
             <Select
@@ -125,7 +128,7 @@ export function UpdateApplicationDialog({
               name="status"
               fullWidth
               rules={{ required: true }}
-              disabled={applicationMutation.isLoading}
+              disabled={isPending}
             />
             <Input
               label="Notes"
@@ -133,16 +136,16 @@ export function UpdateApplicationDialog({
               fullWidth
               inputProps={{
                 ...register("notes"),
-                disabled: applicationMutation.isLoading,
+                disabled: isPending,
               }}
             />
 
             <DialogFooter>
-              <Button type="submit" loading={applicationMutation.isLoading}>
+              <Button type="submit" loading={isPending}>
                 Save
               </Button>
             </DialogFooter>
-          </UpdateApplicationForm>
+          </form>
         </DialogContent>
       </DialogPortal>
     </Dialog>

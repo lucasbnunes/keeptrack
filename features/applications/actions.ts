@@ -63,3 +63,54 @@ export async function createApplication(
     data: application,
   };
 }
+
+const updateApplicationSchema = z.object({
+  id: z.string().min(1),
+  company: z.string().min(1),
+  title: z.string().min(1),
+  notes: z.string(),
+});
+
+export async function updateApplication(
+  _prevState: unknown,
+  formData: FormData,
+) {
+  const values = Object.fromEntries(formData);
+  const parsed = updateApplicationSchema.safeParse(values);
+  console.log(parsed);
+
+  if (!parsed.success) {
+    return {
+      status: 400,
+    };
+  }
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return {
+      status: 401,
+    };
+  }
+
+  const application = await prisma.application.update({
+    data: {
+      company: parsed.data.company,
+      title: parsed.data.title,
+      notes: parsed.data.notes,
+      status: "applied",
+    },
+    where: {
+      id: parsed.data.id,
+    },
+  });
+
+  revalidatePath("/app/applications");
+
+  return {
+    status: 200,
+    data: application,
+  };
+}
