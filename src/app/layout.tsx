@@ -1,5 +1,6 @@
 import { Nunito_Sans } from "next/font/google";
 import { ContextProviders } from "./contexts";
+import "@/app/globals.css";
 
 const nunitoSans = Nunito_Sans({
   weight: ["400", "600", "700"],
