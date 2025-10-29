@@ -15,11 +15,10 @@ import { createApplication } from "../actions";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
+import { Datepicker } from "@/components/datepicker";
 
 const tzOffsetInMilliseconds = new Date().getTimezoneOffset() * 60000;
-const DEFAULT_APPLICATION_DATE = new Date(Date.now() - tzOffsetInMilliseconds)
-  .toISOString()
-  .slice(0, 10);
+const defaultApplicationDate = new Date(Date.now() - tzOffsetInMilliseconds);
 
 export function NewApplicationModal() {
   const [open, setOpen] = useState(false);
@@ -44,7 +43,7 @@ export function NewApplicationModal() {
         <DialogHeader>
           <DialogTitle>New Application</DialogTitle>
         </DialogHeader>
-        <form action={submitAction} className="flex flex-col gap-4">
+        <form action={submitAction} className="flex flex-col gap-4" id="form">
           <Field>
             <FieldLabel htmlFor="title">Job title</FieldLabel>
             <Input name="title" id="title" disabled={isPending} />
@@ -57,10 +56,11 @@ export function NewApplicationModal() {
 
           <Field>
             <FieldLabel htmlFor="applicationDate">Application date</FieldLabel>
-            <Input
+            <Datepicker
               name="applicationDate"
               id="applicationDate"
               disabled={isPending}
+              defaultValue={defaultApplicationDate}
             />
           </Field>
 
@@ -76,7 +76,7 @@ export function NewApplicationModal() {
         </form>
 
         <DialogFooter>
-          <Button type="submit" loading={isPending} variant="ghost">
+          <Button type="submit" loading={isPending} variant="ghost" form="form">
             Save
           </Button>
         </DialogFooter>
