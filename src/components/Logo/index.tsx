@@ -1,23 +1,16 @@
 "use client";
 
-import { AnchorLogo, LogoContainer } from "./styles";
+import Link from "next/link";
 
 interface LogoProps {
-  className?: string;
   href?: string;
 }
-export function Logo({ className, href }: LogoProps) {
-  if (!href) {
-    return (
-      <LogoContainer className={className}>
-        <img src="/keeptrack.png" alt="keeptrack logo" />
-      </LogoContainer>
-    );
-  }
-
+export function Logo({ href = "/app/applications" }: LogoProps) {
   return (
-    <AnchorLogo href="/applications" className={className}>
-      <img src="/keeptrack.png" alt="keeptrack logo" />
-    </AnchorLogo>
+    <Link href={href}>
+      <h1 className="text-3xl font-bold">
+        Keep<span className="text-muted-foreground">Track</span>
+      </h1>
+    </Link>
   );
 }
