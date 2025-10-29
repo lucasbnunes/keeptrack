@@ -6,11 +6,12 @@ import {
   DialogClose,
   DialogContent,
   DialogFooter,
+  DialogHeader,
   DialogOverlay,
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-} from "@/components/Dialog";
+} from "@/components/ui/dialog";
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
 import { Application, Status } from "@prisma/client";
@@ -94,62 +95,60 @@ export function UpdateApplicationDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="ghost" onClick={() => setOpen(true)}>
-          Edit
-        </Button>
-      </DialogTrigger>
-      <DialogPortal>
-        <DialogOverlay />
+      <form action={submitAction}>
+        <DialogTrigger asChild>
+          <Button variant="ghost" onClick={() => setOpen(true)}>
+            Edit
+          </Button>
+        </DialogTrigger>
         <DialogContent>
-          <form action={submitAction}>
-            <DialogClose onClick={() => setOpen(false)} />
+          <DialogHeader>
             <DialogTitle>Edit application</DialogTitle>
+          </DialogHeader>
 
-            <input name="id" value={application.id} hidden />
-            <Input
-              label="Job title"
-              fullWidth
-              inputProps={{
-                ...register("title", { required: true }),
-                disabled: isPending,
-              }}
-            />
-            <Input
-              label="Company"
-              fullWidth
-              inputProps={{
-                ...register("company", { required: true }),
-                disabled: isPending,
-              }}
-            />
-            <Select
-              label="Status"
-              items={STATUS_ITEMS}
-              control={control}
-              name="status"
-              fullWidth
-              rules={{ required: true }}
-              disabled={isPending}
-            />
-            <Input
-              label="Notes"
-              multiline
-              fullWidth
-              inputProps={{
-                ...register("notes"),
-                disabled: isPending,
-              }}
-            />
+          <input name="id" value={application.id} hidden readOnly />
+          <Input
+            label="Job title"
+            fullWidth
+            inputProps={{
+              ...register("title", { required: true }),
+              disabled: isPending,
+            }}
+          />
+          <Input
+            label="Company"
+            fullWidth
+            inputProps={{
+              ...register("company", { required: true }),
+              disabled: isPending,
+            }}
+          />
+          <Select
+            label="Status"
+            items={STATUS_ITEMS}
+            control={control}
+            name="status"
+            fullWidth
+            rules={{ required: true }}
+            disabled={isPending}
+          />
+          <Input
+            label="Notes"
+            multiline
+            fullWidth
+            inputProps={{
+              ...register("notes"),
+              disabled: isPending,
+            }}
+          />
 
-            <DialogFooter>
-              <Button type="submit" loading={isPending} variant="ghost">
-                Save
-              </Button>
-            </DialogFooter>
-          </form>
+          <DialogFooter>
+            <Button type="submit" loading={isPending} variant="ghost">
+              Save
+            </Button>
+          </DialogFooter>
         </DialogContent>
-      </DialogPortal>
+      </form>
     </Dialog>
   );
 }

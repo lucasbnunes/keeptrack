@@ -1,18 +1,15 @@
 "use client";
 
 import { Input } from "@/components/Input";
-// import { Modal } from "@/components/Modal";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogFooter,
-  DialogOverlay,
-  DialogPortal,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/Dialog";
+} from "@/components/ui/dialog";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useActionState, useEffect, useState } from "react";
 import { createApplication } from "../actions";
@@ -36,53 +33,50 @@ export function NewApplicationModal() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>
-          <PlusIcon /> New application
-        </Button>
-      </DialogTrigger>
-      <DialogPortal>
-        <DialogOverlay />
+      <form action={submitAction}>
+        <DialogTrigger asChild>
+          <Button onClick={() => setOpen(true)}>
+            <PlusIcon /> New application
+          </Button>
+        </DialogTrigger>
         <DialogContent>
-          <form action={submitAction}>
-            <DialogClose onClick={() => setOpen(false)} />
+          <DialogHeader>
             <DialogTitle>New Application</DialogTitle>
+          </DialogHeader>
+          <Input
+            label="Job title"
+            fullWidth
+            inputProps={{ disabled: isPending, name: "title" }}
+          />
+          <Input
+            label="Company"
+            fullWidth
+            inputProps={{ disabled: isPending, name: "company" }}
+          />
+          <Input
+            label="Application date"
+            inputProps={{
+              type: "date",
+              defaultValue: DEFAULT_APPLICATION_DATE,
+              disabled: isPending,
+              name: "applicationDate",
+            }}
+            fullWidth
+          />
+          <Input
+            label="Notes"
+            multiline
+            fullWidth
+            inputProps={{ disabled: isPending, name: "notes" }}
+          />
 
-            <Input
-              label="Job title"
-              fullWidth
-              inputProps={{ disabled: isPending, name: "title" }}
-            />
-            <Input
-              label="Company"
-              fullWidth
-              inputProps={{ disabled: isPending, name: "company" }}
-            />
-            <Input
-              label="Application date"
-              inputProps={{
-                type: "date",
-                defaultValue: DEFAULT_APPLICATION_DATE,
-                disabled: isPending,
-                name: "applicationDate",
-              }}
-              fullWidth
-            />
-            <Input
-              label="Notes"
-              multiline
-              fullWidth
-              inputProps={{ disabled: isPending, name: "notes" }}
-            />
-
-            <DialogFooter>
-              <Button type="submit" loading={isPending} variant="ghost">
-                Save
-              </Button>
-            </DialogFooter>
-          </form>
+          <DialogFooter>
+            <Button type="submit" loading={isPending} variant="ghost">
+              Save
+            </Button>
+          </DialogFooter>
         </DialogContent>
-      </DialogPortal>
+      </form>
     </Dialog>
   );
 }
