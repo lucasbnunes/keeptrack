@@ -1,7 +1,7 @@
 import { useDateFormat } from "@/hooks/useDateFormat";
 import { Application } from "@prisma/client";
-import { StatusChip } from "../StatusChip";
 import { UpdateApplicationDialog } from "../UpdateApplicationDialog";
+import { StatusBadge } from "@/features/applications/components/status-badge";
 import {
   ApplicationListItem,
   ApplicationListItemInfo,
@@ -29,7 +29,7 @@ export function ApplicationsList({ applications }: ApplicationListProps) {
             <span>
               {formatToRelativeDate(new Date(application.applicationDate))}
             </span>
-            <StatusChip status={application.status} />
+            <StatusBadge status={application.status} />
           </ApplicationListItemInfo>
         </ApplicationListItem>
       ))}

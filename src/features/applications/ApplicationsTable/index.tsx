@@ -1,6 +1,5 @@
 import { useDateFormat } from "@/hooks/useDateFormat";
 import { Application } from "@prisma/client";
-import { StatusChip } from "../StatusChip";
 import { UpdateApplicationDialog } from "../UpdateApplicationDialog";
 import {
   ApplicationsTableBody,
@@ -8,6 +7,7 @@ import {
   ApplicationsTableRoot,
   ApplicationsVerticalCell,
 } from "./style";
+import { StatusBadge } from "@/features/applications/components/status-badge";
 
 interface ApplicationTableProps {
   applications: Application[];
@@ -36,7 +36,7 @@ export function ApplicationsTable({ applications }: ApplicationTableProps) {
                 <span>{application.company}</span>
               </ApplicationsVerticalCell>
               <td>
-                <StatusChip status={application.status} />
+                <StatusBadge status={application.status} />
               </td>
               <td>
                 {formatToRelativeDate(new Date(application.applicationDate))}
