@@ -34,11 +34,13 @@ export function NewApplicationModal() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>
-          <Plus /> New application
-        </Button>
-      </DialogTrigger>
+      <div className="flex justify-end">
+        <DialogTrigger asChild>
+          <Button onClick={() => setOpen(true)} className="ml-auto">
+            <Plus /> New application
+          </Button>
+        </DialogTrigger>
+      </div>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>New Application</DialogTitle>
