@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/Input";
 // import { Modal } from "@/components/Modal";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -37,7 +37,7 @@ export function NewApplicationModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)} variant="solid">
+        <Button onClick={() => setOpen(true)}>
           <PlusIcon /> New application
         </Button>
       </DialogTrigger>
@@ -76,7 +76,7 @@ export function NewApplicationModal() {
             />
 
             <DialogFooter>
-              <Button type="submit" loading={isPending}>
+              <Button type="submit" loading={isPending} variant="ghost">
                 Save
               </Button>
             </DialogFooter>

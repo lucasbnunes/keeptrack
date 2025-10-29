@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/Button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -95,7 +95,9 @@ export function UpdateApplicationDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>Edit</Button>
+        <Button variant="ghost" onClick={() => setOpen(true)}>
+          Edit
+        </Button>
       </DialogTrigger>
       <DialogPortal>
         <DialogOverlay />
@@ -141,7 +143,7 @@ export function UpdateApplicationDialog({
             />
 
             <DialogFooter>
-              <Button type="submit" loading={isPending}>
+              <Button type="submit" loading={isPending} variant="ghost">
                 Save
               </Button>
             </DialogFooter>

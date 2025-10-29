@@ -1,4 +1,3 @@
-import { Button } from "@/components/Button";
 import { Logo } from "@/components/Logo";
 import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/auth-client";
