@@ -8,6 +8,14 @@ import {
   ApplicationsVerticalCell,
 } from "./style";
 import { StatusBadge } from "@/features/applications/components/status-badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface ApplicationTableProps {
   applications: Application[];
@@ -18,36 +26,38 @@ export function ApplicationsTable({ applications }: ApplicationTableProps) {
 
   return (
     <>
-      <ApplicationsTableRoot>
-        <ApplicationsTableHead>
-          <tr>
-            <th>Position</th>
-            <th>Status</th>
-            <th>Applied</th>
-            <th></th>
-          </tr>
-        </ApplicationsTableHead>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Position</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Applied</TableHead>
+            <TableHead></TableHead>
+          </TableRow>
+        </TableHeader>
 
-        <ApplicationsTableBody>
+        <TableBody>
           {applications.map((application) => (
-            <tr key={application.id}>
-              <ApplicationsVerticalCell>
+            <TableRow key={application.id}>
+              <TableCell className="flex flex-col">
                 <span>{application.title}</span>
-                <span>{application.company}</span>
-              </ApplicationsVerticalCell>
-              <td>
+                <span className="text-muted-foreground">
+                  {application.company}
+                </span>
+              </TableCell>
+              <TableCell>
                 <StatusBadge status={application.status} />
-              </td>
-              <td>
+              </TableCell>
+              <TableCell>
                 {formatToRelativeDate(new Date(application.applicationDate))}
-              </td>
-              <td>
+              </TableCell>
+              <TableCell>
                 <UpdateApplicationDialog application={application} />
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </ApplicationsTableBody>
-      </ApplicationsTableRoot>
+        </TableBody>
+      </Table>
     </>
   );
 }

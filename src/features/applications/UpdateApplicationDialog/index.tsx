@@ -99,7 +99,7 @@ export function UpdateApplicationDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" onClick={() => setOpen(true)}>
+        <Button variant="secondary" size="sm" onClick={() => setOpen(true)}>
           Edit
         </Button>
       </DialogTrigger>
