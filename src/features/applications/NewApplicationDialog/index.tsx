@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@/components/Input";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,9 +10,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { PlusIcon } from "@radix-ui/react-icons";
 import { useActionState, useEffect, useState } from "react";
 import { createApplication } from "../actions";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Textarea } from "@/components/ui/textarea";
+import { Plus } from "lucide-react";
 
 const tzOffsetInMilliseconds = new Date().getTimezoneOffset() * 60000;
 const DEFAULT_APPLICATION_DATE = new Date(Date.now() - tzOffsetInMilliseconds)
@@ -33,50 +35,52 @@ export function NewApplicationModal() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <form action={submitAction}>
-        <DialogTrigger asChild>
-          <Button onClick={() => setOpen(true)}>
-            <PlusIcon /> New application
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>New Application</DialogTitle>
-          </DialogHeader>
-          <Input
-            label="Job title"
-            fullWidth
-            inputProps={{ disabled: isPending, name: "title" }}
-          />
-          <Input
-            label="Company"
-            fullWidth
-            inputProps={{ disabled: isPending, name: "company" }}
-          />
-          <Input
-            label="Application date"
-            inputProps={{
-              type: "date",
-              defaultValue: DEFAULT_APPLICATION_DATE,
-              disabled: isPending,
-              name: "applicationDate",
-            }}
-            fullWidth
-          />
-          <Input
-            label="Notes"
-            multiline
-            fullWidth
-            inputProps={{ disabled: isPending, name: "notes" }}
-          />
+      <DialogTrigger asChild>
+        <Button onClick={() => setOpen(true)}>
+          <Plus /> New application
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>New Application</DialogTitle>
+        </DialogHeader>
+        <form action={submitAction} className="flex flex-col gap-4">
+          <Field>
+            <FieldLabel htmlFor="title">Job title</FieldLabel>
+            <Input name="title" id="title" disabled={isPending} />
+          </Field>
 
-          <DialogFooter>
-            <Button type="submit" loading={isPending} variant="ghost">
-              Save
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </form>
+          <Field>
+            <FieldLabel htmlFor="company">Company</FieldLabel>
+            <Input name="company" id="company" disabled={isPending} />
+          </Field>
+
+          <Field>
+            <FieldLabel htmlFor="applicationDate">Application date</FieldLabel>
+            <Input
+              name="applicationDate"
+              id="applicationDate"
+              disabled={isPending}
+            />
+          </Field>
+
+          <Field>
+            <FieldLabel htmlFor="notes">Notes</FieldLabel>
+            <Textarea
+              name="notes"
+              id="notes"
+              disabled={isPending}
+              className="min-h-[200px]"
+            />
+          </Field>
+        </form>
+
+        <DialogFooter>
+          <Button type="submit" loading={isPending} variant="ghost">
+            Save
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }

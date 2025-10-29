@@ -1,27 +1,29 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogOverlay,
-  DialogPortal,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/Input";
-import { Select } from "@/components/Select";
+import { Field, FieldLabel } from "@/components/ui/field";
 import { Application, Status } from "@prisma/client";
 import { useActionState, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { updateApplication } from "../actions";
-import {
-  UpdateApplication,
-  useUpdateApplicationMutation,
-} from "../useUpdateApplicationMutation";
+import { UpdateApplication } from "../useUpdateApplicationMutation";
+import { Textarea } from "@/components/ui/textarea";
 
 interface UpdateApplicationModalProps {
   application: Application;
@@ -73,6 +75,7 @@ export function UpdateApplicationDialog({
     formState: { errors },
     reset,
     control,
+    watch,
   } = useForm<UpdateApplication>({ defaultValues });
   const [actionState, submitAction, isPending] = useActionState(
     updateApplication,
@@ -95,60 +98,78 @@ export function UpdateApplicationDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <form action={submitAction}>
-        <DialogTrigger asChild>
-          <Button variant="ghost" onClick={() => setOpen(true)}>
-            Edit
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit application</DialogTitle>
-          </DialogHeader>
-
+      <DialogTrigger asChild>
+        <Button variant="ghost" onClick={() => setOpen(true)}>
+          Edit
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit application</DialogTitle>
+        </DialogHeader>
+        <form action={submitAction} id="form" className="flex flex-col gap-4">
           <input name="id" value={application.id} hidden readOnly />
-          <Input
-            label="Job title"
-            fullWidth
-            inputProps={{
-              ...register("title", { required: true }),
-              disabled: isPending,
-            }}
-          />
-          <Input
-            label="Company"
-            fullWidth
-            inputProps={{
-              ...register("company", { required: true }),
-              disabled: isPending,
-            }}
-          />
-          <Select
-            label="Status"
-            items={STATUS_ITEMS}
-            control={control}
+
+          <Field>
+            <FieldLabel htmlFor="title">Job title</FieldLabel>
+            <Input
+              id="title"
+              {...register("title", { required: true })}
+              disabled={isPending}
+            />
+          </Field>
+
+          <Field>
+            <FieldLabel htmlFor="company">Company</FieldLabel>
+            <Input
+              id="company"
+              {...register("company", { required: true })}
+              disabled={isPending}
+            />
+          </Field>
+
+          <Controller
             name="status"
-            fullWidth
-            rules={{ required: true }}
-            disabled={isPending}
-          />
-          <Input
-            label="Notes"
-            multiline
-            fullWidth
-            inputProps={{
-              ...register("notes"),
-              disabled: isPending,
-            }}
+            control={control}
+            render={({ field }) => (
+              <Field>
+                <FieldLabel htmlFor="status">Status</FieldLabel>
+                <Select
+                  name={field.name}
+                  value={field.value}
+                  onValueChange={field.onChange}
+                >
+                  <SelectTrigger id="status">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {STATUS_ITEMS.map((status) => (
+                      <SelectItem value={status.value} key={status.value}>
+                        {status.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+            )}
           />
 
-          <DialogFooter>
-            <Button type="submit" loading={isPending} variant="ghost">
-              Save
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </form>
+          <Field>
+            <FieldLabel htmlFor="notes">Notes</FieldLabel>
+            <Textarea
+              id="notes"
+              {...register("notes")}
+              disabled={isPending}
+              className="min-h-[200px]"
+            />
+          </Field>
+        </form>
+        <DialogFooter>
+          <Button type="submit" loading={isPending} variant="ghost" form="form">
+            Save
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }
