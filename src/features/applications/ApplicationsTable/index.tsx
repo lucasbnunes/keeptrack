@@ -29,10 +29,16 @@ export function ApplicationsTable({ applications }: ApplicationTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Position</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Applied</TableHead>
-            <TableHead></TableHead>
+            <TableHead className="text-muted-foreground uppercase">
+              Position
+            </TableHead>
+            <TableHead className="text-muted-foreground uppercase">
+              Status
+            </TableHead>
+            <TableHead className="text-muted-foreground uppercase">
+              Applied
+            </TableHead>
+            <TableHead className="text-muted-foreground uppercase"></TableHead>
           </TableRow>
         </TableHeader>
 
