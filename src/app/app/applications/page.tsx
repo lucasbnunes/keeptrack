@@ -1,7 +1,6 @@
 import { NewApplicationModal } from "@/features/applications/NewApplicationDialog";
 import { ResponsiveApplications } from "@/features/applications/ResponsiveApplications";
 import { SearchForm } from "@/features/applications/SearchForm";
-import { ApplicationsContainer } from "@/features/applications/applicationsPageStyle";
 import {
   getApplications,
   searchApplications,
@@ -35,11 +34,11 @@ export default async function Applications({
   }
 
   return (
-    <ApplicationsContainer>
+    <div className="max-w-7xl mx-auto mt-10 xl:mt-20 px-4">
       <NewApplicationModal />
 
       <SearchForm />
       <ResponsiveApplications applications={applications} />
-    </ApplicationsContainer>
+    </div>
   );
 }
