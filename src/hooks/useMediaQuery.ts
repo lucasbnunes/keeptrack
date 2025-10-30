@@ -1,15 +1,20 @@
 "use client";
-
-import { theme } from "@/styles/theme";
 import { useEffect, useState } from "react";
-import { DefaultTheme } from "styled-components";
 
 interface WindowDimensions {
   width?: number;
   height?: number;
 }
 
-type Breakpoints = keyof DefaultTheme["breakpoints"];
+const breakpointValues = {
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+  "2xl": 1536,
+};
+
+type Breakpoints = keyof typeof breakpointValues;
 
 export function useMediaQuery() {
   const [windowSize, setWindowSize] = useState<WindowDimensions>({
@@ -33,13 +38,13 @@ export function useMediaQuery() {
 
   function minWidth(breakpoint: Breakpoints) {
     if (windowSize.width) {
-      return windowSize.width >= parseInt(theme.breakpoints[breakpoint]);
+      return windowSize.width >= breakpointValues[breakpoint];
     }
   }
 
   function maxWidth(breakpoint: Breakpoints) {
     if (windowSize.width) {
-      return windowSize.width < parseInt(theme.breakpoints[breakpoint]);
+      return windowSize.width < breakpointValues[breakpoint];
     }
   }
 
