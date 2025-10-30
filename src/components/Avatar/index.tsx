@@ -1,9 +1,9 @@
-import {
-  StyledAvatarRoot,
-  StyledAvatarImage,
-  StyledAvatarFallback,
-} from "./styles";
 import { authClient } from "@/lib/auth-client";
+import {
+  Avatar as ShadcnAvatar,
+  AvatarImage,
+  AvatarFallback,
+} from "@/components/ui/avatar";
 
 interface AvatarProps {
   className?: string;
@@ -33,12 +33,12 @@ export function Avatar({ className }: AvatarProps) {
   const initials = getInitials(session?.data?.user.name || "");
 
   return (
-    <StyledAvatarRoot className={className}>
-      <StyledAvatarImage
+    <ShadcnAvatar className={className}>
+      <AvatarImage
         src={session?.data?.user?.image || ""}
         alt={session?.data?.user.name || ""}
       />
-      <StyledAvatarFallback>{initials}</StyledAvatarFallback>
-    </StyledAvatarRoot>
+      <AvatarFallback>{initials}</AvatarFallback>
+    </ShadcnAvatar>
   );
 }
