@@ -1,12 +1,11 @@
 import { Logo } from "@/components/Logo";
 import { AccountMenu } from "../AccountMenu";
-import { HeaderContainer } from "./styles";
 
 export function Header() {
   return (
-    <HeaderContainer>
+    <header className="flex justify-between items-center py-3 px-4 lg:px-16">
       <Logo />
       <AccountMenu />
-    </HeaderContainer>
+    </header>
   );
 }
