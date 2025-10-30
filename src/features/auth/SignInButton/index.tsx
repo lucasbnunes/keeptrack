@@ -12,8 +12,8 @@ export function SignInButton() {
 
   return (
     <Button onClick={signIn}>
-      <img src="/Google__G__Logo.png" alt="" />
-      Sign up with Google
+      <img src="/Google__G__Logo.png" alt="" className="size-6" />
+      Sign in with Google
     </Button>
   );
 }
