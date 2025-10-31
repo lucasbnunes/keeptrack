@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { authClient } from "@/lib/auth-client";
+import { Button } from '@/components/ui/button';
+import { authClient } from '@/lib/auth-client';
 
 export function SignInButton() {
   async function signIn() {
     authClient.signIn.social({
-      provider: "google",
+      provider: 'google',
     });
   }
 

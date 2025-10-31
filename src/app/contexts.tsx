@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { ReactNode } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { ReactNode } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
 
 const queryClient = new QueryClient();
 

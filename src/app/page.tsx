@@ -1,8 +1,8 @@
-import { Logo } from "@/components/Logo";
-import { SignInButton } from "@/features/auth/SignInButton";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { Logo } from '@/components/Logo';
+import { SignInButton } from '@/features/auth/SignInButton';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
   const session = await auth.api.getSession({
@@ -10,7 +10,7 @@ export default async function Home() {
   });
 
   if (session) {
-    redirect("/app/applications");
+    redirect('/app/applications');
   }
 
   return (

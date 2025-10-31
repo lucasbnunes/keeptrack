@@ -1,12 +1,12 @@
-import { NewApplicationModal } from "@/features/applications/NewApplicationDialog";
-import { ResponsiveApplications } from "@/features/applications/ResponsiveApplications";
-import { SearchForm } from "@/features/applications/SearchForm";
+import { NewApplicationModal } from '@/features/applications/NewApplicationDialog';
+import { ResponsiveApplications } from '@/features/applications/ResponsiveApplications';
+import { SearchForm } from '@/features/applications/SearchForm';
 import {
   getApplications,
   searchApplications,
-} from "@/features/applications/service";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+} from '@/features/applications/service';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
 export default async function Applications({
   searchParams,

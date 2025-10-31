@@ -13,7 +13,7 @@ export function useApplicationMutation() {
     async (application: NewApplication) => {
       const { data } = await api.post<Application[]>(
         '/applications',
-        application
+        application,
       );
       return data;
     },
@@ -21,7 +21,7 @@ export function useApplicationMutation() {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['applications'] });
       },
-    }
+    },
   );
 
   return createApplication;

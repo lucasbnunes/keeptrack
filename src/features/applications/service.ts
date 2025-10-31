@@ -1,8 +1,8 @@
-import { prisma } from "@/lib/prisma";
-import { Application, User } from "@prisma/client";
+import { prisma } from '@/lib/prisma';
+import { Application, User } from '@prisma/client';
 
 export async function getApplications(
-  userId: User["id"],
+  userId: User['id'],
   searchTerm?: string,
 ): Promise<Application[]> {
   const applications = await prisma.application.findMany({
@@ -10,7 +10,7 @@ export async function getApplications(
       userId,
     },
     orderBy: {
-      updatedAt: "desc",
+      updatedAt: 'desc',
     },
   });
 
@@ -18,7 +18,7 @@ export async function getApplications(
 }
 
 export async function searchApplications(
-  userId: User["id"],
+  userId: User['id'],
   searchTerm: string,
 ) {
   const applications = await prisma.application.findMany({
@@ -28,19 +28,19 @@ export async function searchApplications(
         {
           company: {
             contains: searchTerm,
-            mode: "insensitive",
+            mode: 'insensitive',
           },
         },
         {
           title: {
             contains: searchTerm,
-            mode: "insensitive",
+            mode: 'insensitive',
           },
         },
       ],
     },
     orderBy: {
-      updatedAt: "desc",
+      updatedAt: 'desc',
     },
   });
 

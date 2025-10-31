@@ -1,18 +1,18 @@
-"use client";
-import { Avatar } from "@/components/Avatar";
-import { authClient } from "@/lib/auth-client";
-import { redirect } from "next/navigation";
+'use client';
+import { Avatar } from '@/components/Avatar';
+import { authClient } from '@/lib/auth-client';
+import { redirect } from 'next/navigation';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from '../ui/dropdown-menu';
 
 export function AccountMenu() {
   async function handleSignOut() {
     await authClient.signOut();
-    redirect("/");
+    redirect('/');
   }
 
   return (

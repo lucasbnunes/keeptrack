@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -16,14 +16,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Field, FieldLabel } from "@/components/ui/field";
-import { Application, Status } from "@prisma/client";
-import { useActionState, useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { updateApplication } from "../actions";
-import { UpdateApplication } from "../useUpdateApplicationMutation";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/dialog';
+import { Field, FieldLabel } from '@/components/ui/field';
+import { Application, Status } from '@prisma/client';
+import { useActionState, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { updateApplication } from '../actions';
+import { UpdateApplication } from '../useUpdateApplicationMutation';
+import { Textarea } from '@/components/ui/textarea';
 
 interface UpdateApplicationModalProps {
   application: Application;
@@ -36,24 +36,24 @@ type StatusItem = {
 
 const STATUS_ITEMS: StatusItem[] = [
   {
-    label: "Applied",
-    value: "applied",
+    label: 'Applied',
+    value: 'applied',
   },
   {
-    label: "Offer received",
-    value: "offer_received",
+    label: 'Offer received',
+    value: 'offer_received',
   },
   {
-    label: "Offer refused",
-    value: "offer_refused",
+    label: 'Offer refused',
+    value: 'offer_refused',
   },
   {
-    label: "Not selected",
-    value: "not_selected",
+    label: 'Not selected',
+    value: 'not_selected',
   },
   {
-    label: "Hired",
-    value: "hired",
+    label: 'Hired',
+    value: 'hired',
   },
 ];
 
@@ -114,7 +114,7 @@ export function UpdateApplicationDialog({
             <FieldLabel htmlFor="title">Job title</FieldLabel>
             <Input
               id="title"
-              {...register("title", { required: true })}
+              {...register('title', { required: true })}
               disabled={isPending}
             />
           </Field>
@@ -123,7 +123,7 @@ export function UpdateApplicationDialog({
             <FieldLabel htmlFor="company">Company</FieldLabel>
             <Input
               id="company"
-              {...register("company", { required: true })}
+              {...register('company', { required: true })}
               disabled={isPending}
             />
           </Field>
@@ -158,7 +158,7 @@ export function UpdateApplicationDialog({
             <FieldLabel htmlFor="notes">Notes</FieldLabel>
             <Textarea
               id="notes"
-              {...register("notes")}
+              {...register('notes')}
               disabled={isPending}
               className="min-h-[200px]"
             />

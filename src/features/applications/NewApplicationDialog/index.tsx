@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,13 +9,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { useActionState, useEffect, useState } from "react";
-import { createApplication } from "../actions";
-import { Field, FieldLabel } from "@/components/ui/field";
-import { Textarea } from "@/components/ui/textarea";
-import { Plus } from "lucide-react";
-import { Datepicker } from "@/components/datepicker";
+} from '@/components/ui/dialog';
+import { useActionState, useEffect, useState } from 'react';
+import { createApplication } from '../actions';
+import { Field, FieldLabel } from '@/components/ui/field';
+import { Textarea } from '@/components/ui/textarea';
+import { Plus } from 'lucide-react';
+import { Datepicker } from '@/components/datepicker';
 
 const tzOffsetInMilliseconds = new Date().getTimezoneOffset() * 60000;
 const defaultApplicationDate = new Date(Date.now() - tzOffsetInMilliseconds);

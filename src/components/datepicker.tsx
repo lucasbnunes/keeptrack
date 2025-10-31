@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { CalendarIcon, ChevronDownIcon } from "lucide-react";
+import { CalendarIcon, ChevronDownIcon } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Label } from "@/components/ui/label";
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
-import { useEffect, useState } from "react";
+} from '@/components/ui/popover';
+import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
 
 interface DatepickerProps {
   id?: string;
@@ -39,7 +39,7 @@ export function Datepicker({
 
   return (
     <div className="">
-      <input name={name} value={date?.toString() || ""} readOnly hidden />
+      <input name={name} value={date?.toString() || ''} readOnly hidden />
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -50,7 +50,7 @@ export function Datepicker({
             disabled={disabled}
           >
             <CalendarIcon />
-            {date ? format(date, "PPP") : <span>{placeholder}</span>}
+            {date ? format(date, 'PPP') : <span>{placeholder}</span>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">

@@ -13,7 +13,7 @@ export function useUpdateApplicationMutation() {
     async (application: UpdateApplication) => {
       const { data } = await api.put<Application>(
         `/applications/${application.id}`,
-        application
+        application,
       );
       return data;
     },
@@ -30,13 +30,13 @@ export function useUpdateApplicationMutation() {
 
         if (previousApplications) {
           const updatedApplicationIndex = previousApplications.findIndex(
-            (application) => application.id === updatedApplication.id
+            (application) => application.id === updatedApplication.id,
           );
 
           const newApplications = [...previousApplications];
           const [removedApplication] = newApplications.splice(
             updatedApplicationIndex,
-            1
+            1,
           );
           newApplications.unshift({
             ...removedApplication,
@@ -50,13 +50,13 @@ export function useUpdateApplicationMutation() {
       onError: (_err, _newApplication, context) => {
         queryClient.setQueryData(
           ['applications', ''],
-          context?.previousApplications
+          context?.previousApplications,
         );
       },
       onSettled: () => {
         queryClient.invalidateQueries({ queryKey: ['applications'] });
       },
-    }
+    },
   );
 
   return applicationMutation;

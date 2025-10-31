@@ -1,5 +1,5 @@
-import { Logo } from "@/components/Logo";
-import { AccountMenu } from "../AccountMenu";
+import { Logo } from '@/components/Logo';
+import { AccountMenu } from '../AccountMenu';
 
 export function Header() {
   return (

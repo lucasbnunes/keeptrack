@@ -1,10 +1,10 @@
-"use server";
+'use server';
 
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
-import { revalidatePath } from "next/cache";
-import z from "zod";
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import { headers } from 'next/headers';
+import { revalidatePath } from 'next/cache';
+import z from 'zod';
 
 const newApplicationSchema = z.object({
   company: z.string().min(1),
@@ -45,7 +45,7 @@ export async function createApplication(
       company: parsed.data.company,
       title: parsed.data.title,
       notes: parsed.data.notes,
-      status: "applied",
+      status: 'applied',
       createdAt: new Date(),
       applicationDate: parsed.data.applicationDate,
       user: {
@@ -56,7 +56,7 @@ export async function createApplication(
     },
   });
 
-  revalidatePath("/app/applications");
+  revalidatePath('/app/applications');
 
   return {
     status: 200,
@@ -100,14 +100,14 @@ export async function updateApplication(
       company: parsed.data.company,
       title: parsed.data.title,
       notes: parsed.data.notes,
-      status: "applied",
+      status: 'applied',
     },
     where: {
       id: parsed.data.id,
     },
   });
 
-  revalidatePath("/app/applications");
+  revalidatePath('/app/applications');
 
   return {
     status: 200,

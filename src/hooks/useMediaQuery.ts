@@ -1,5 +1,5 @@
-"use client";
-import { useEffect, useState } from "react";
+'use client';
+import { useEffect, useState } from 'react';
 
 interface WindowDimensions {
   width?: number;
@@ -11,7 +11,7 @@ const breakpointValues = {
   md: 768,
   lg: 1024,
   xl: 1280,
-  "2xl": 1536,
+  '2xl': 1536,
 };
 
 type Breakpoints = keyof typeof breakpointValues;
@@ -30,10 +30,10 @@ export function useMediaQuery() {
       });
     }
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     handleResize();
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   function minWidth(breakpoint: Breakpoints) {

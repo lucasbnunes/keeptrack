@@ -4,7 +4,7 @@ export function useDateFormat() {
 
     // calculate the time difference in milliseconds
     const diffMs = Math.abs(
-      new Date().getTime() - tzOffsetInMilliseconds - date.getTime()
+      new Date().getTime() - tzOffsetInMilliseconds - date.getTime(),
     );
 
     // define the thresholds for each unit of time

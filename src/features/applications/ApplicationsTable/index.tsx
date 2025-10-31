@@ -1,7 +1,7 @@
-import { useDateFormat } from "@/hooks/useDateFormat";
-import { Application } from "@prisma/client";
-import { UpdateApplicationDialog } from "../UpdateApplicationDialog";
-import { StatusBadge } from "@/features/applications/components/status-badge";
+import { useDateFormat } from '@/hooks/useDateFormat';
+import { Application } from '@prisma/client';
+import { UpdateApplicationDialog } from '../UpdateApplicationDialog';
+import { StatusBadge } from '@/features/applications/components/status-badge';
 import {
   Table,
   TableBody,
@@ -9,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 
 interface ApplicationTableProps {
   applications: Application[];
