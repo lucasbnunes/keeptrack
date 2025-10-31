@@ -1,12 +1,6 @@
 import { useDateFormat } from "@/hooks/useDateFormat";
 import { Application } from "@prisma/client";
 import { UpdateApplicationDialog } from "../UpdateApplicationDialog";
-import {
-  ApplicationsTableBody,
-  ApplicationsTableHead,
-  ApplicationsTableRoot,
-  ApplicationsVerticalCell,
-} from "./style";
 import { StatusBadge } from "@/features/applications/components/status-badge";
 import {
   Table,
