@@ -17,10 +17,7 @@ const newApplicationSchema = z.object({
 });
 
 // TODO: refine validation and error handling
-export async function createApplication(
-  _prevState: unknown,
-  formData: FormData,
-) {
+export async function createApplication(formData: FormData) {
   const values = Object.fromEntries(formData);
   const parsed = newApplicationSchema.safeParse(values);
 
@@ -71,10 +68,7 @@ const updateApplicationSchema = z.object({
   notes: z.string(),
 });
 
-export async function updateApplication(
-  _prevState: unknown,
-  formData: FormData,
-) {
+export async function updateApplication(formData: FormData) {
   const values = Object.fromEntries(formData);
   const parsed = updateApplicationSchema.safeParse(values);
   console.log(parsed);

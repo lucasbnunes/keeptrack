@@ -1,13 +1,5 @@
 'use client';
 
-import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -18,12 +10,20 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Field, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { Application, Status } from '@prisma/client';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { updateApplication } from '../actions';
 import { UpdateApplication } from '../useUpdateApplicationMutation';
-import { Textarea } from '@/components/ui/textarea';
 
 interface UpdateApplicationModalProps {
   application: Application;
@@ -77,24 +77,23 @@ export function UpdateApplicationDialog({
     control,
     watch,
   } = useForm<UpdateApplication>({ defaultValues });
-  const [actionState, submitAction, isPending] = useActionState(
-    updateApplication,
-    {
-      status: 200,
+
+  const initalActionState = {
+    status: 200,
+  };
+
+  const [_actionState, submitAction, isPending] = useActionState(
+    async (_prevState: typeof initalActionState, formData: FormData) => {
+      const result = await updateApplication(formData);
+
+      if (result.status === 200) {
+        setOpen(false);
+      }
+
+      return result;
     },
+    initalActionState,
   );
-
-  useEffect(() => {
-    console.log(actionState);
-    if (actionState.status === 200) {
-      setOpen(false);
-    }
-  }, [actionState]);
-
-  function handleClose() {
-    setOpen(false);
-    reset();
-  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

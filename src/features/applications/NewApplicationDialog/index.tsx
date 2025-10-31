@@ -1,6 +1,6 @@
 'use client';
 
-import { Input } from '@/components/ui/input';
+import { Datepicker } from '@/components/datepicker';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -10,27 +10,34 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useActionState, useEffect, useState } from 'react';
-import { createApplication } from '../actions';
 import { Field, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus } from 'lucide-react';
-import { Datepicker } from '@/components/datepicker';
+import { useActionState, useState } from 'react';
+import { createApplication } from '../actions';
 
 const tzOffsetInMilliseconds = new Date().getTimezoneOffset() * 60000;
 const defaultApplicationDate = new Date(Date.now() - tzOffsetInMilliseconds);
 
+const initalActionState = {
+  status: 200,
+};
+
 export function NewApplicationModal() {
   const [open, setOpen] = useState(false);
-  const [state, submitAction, isPending] = useActionState(createApplication, {
-    status: 200,
-  });
+  const [_state, submitAction, isPending] = useActionState(
+    async (_prevState: typeof initalActionState, formData: FormData) => {
+      const result = await createApplication(formData);
 
-  useEffect(() => {
-    if (state.status === 200) {
-      setOpen(false);
-    }
-  }, [state]);
+      if (result.status === 200) {
+        setOpen(false);
+      }
+
+      return result;
+    },
+    initalActionState,
+  );
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
