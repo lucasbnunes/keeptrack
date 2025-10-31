@@ -31,7 +31,7 @@ export function SearchForm() {
 
   return (
     <form
-      className="my-6 flex items-center gap-2 max-w-sm"
+      className="my-6 flex max-w-sm items-center gap-2"
       onSubmit={handleSearch}
     >
       <Field>

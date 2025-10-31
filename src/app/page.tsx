@@ -14,12 +14,12 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-svh flex flex-col justify-center px-6">
-      <div className="absolute top-0 py-3 px-4">
+    <div className="flex min-h-svh flex-col justify-center px-6">
+      <div className="absolute top-0 px-4 py-3">
         <Logo />
       </div>
-      <div className="max-w-7xl mx-auto text-center">
-        <h1 className="text-4xl mb-6">
+      <div className="mx-auto max-w-7xl text-center">
+        <h1 className="mb-6 text-4xl">
           Stay Organized and On Top of Your Applications
         </h1>
         <p className="mb-8">

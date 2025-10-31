@@ -34,7 +34,7 @@ export default async function Applications({
   }
 
   return (
-    <div className="max-w-7xl mx-auto mt-10 xl:mt-20 px-4">
+    <div className="mx-auto mt-10 max-w-7xl px-4 xl:mt-20">
       <NewApplicationModal />
 
       <SearchForm />

@@ -15,7 +15,7 @@ export function ApplicationsList({ applications }: ApplicationListProps) {
       {applications.map((application) => (
         <li
           key={application.id}
-          className="flex justify-between py-2 px-3 rounded-md hover:bg-accent"
+          className="hover:bg-accent flex justify-between rounded-md px-3 py-2"
         >
           <div className="flex flex-col items-start">
             <span>{application.title}</span>
@@ -23,7 +23,7 @@ export function ApplicationsList({ applications }: ApplicationListProps) {
             <UpdateApplicationDialog application={application} />
           </div>
           <div className="flex flex-col items-start">
-            <span className="self-end text-sm text-muted-foreground">
+            <span className="text-muted-foreground self-end text-sm">
               {formatToRelativeDate(new Date(application.applicationDate))}
             </span>
             <StatusBadge status={application.status} />
