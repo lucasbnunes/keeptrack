@@ -1,5 +1,5 @@
 import { StatusBadge } from '@/features/applications/components/status-badge';
-import { useDateFormat } from '@/hooks/useDateFormat';
+import { useDateFormat } from '@/hooks/use-date-format';
 import { Application } from '@prisma/client';
 import { UpdateApplicationDialog } from './update-application-dialog';
 

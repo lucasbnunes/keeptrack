@@ -1,6 +1,6 @@
 'use client';
 
-import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useMediaQuery } from '@/hooks/use-media-query';
 import { Application } from '@prisma/client';
 import { ApplicationsTable } from '@/features/applications/components/applications-table';
 import { ApplicationsList } from '@/features/applications/components/applications-list';
