@@ -1,5 +1,5 @@
 'use client';
-import { Avatar } from '@/components/Avatar';
+import { Avatar } from '@/components/avatar';
 import { authClient } from '@/lib/auth-client';
 import { redirect } from 'next/navigation';
 import {
@@ -7,7 +7,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 
 export function AccountMenu() {
   async function handleSignOut() {

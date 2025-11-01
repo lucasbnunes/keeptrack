@@ -1,4 +1,4 @@
-import { Logo } from '@/components/Logo';
+import { Logo } from '@/components/logo';
 import { SignInButton } from '@/features/auth/SignInButton';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
