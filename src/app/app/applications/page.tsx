@@ -1,6 +1,6 @@
-import { NewApplicationModal } from '@/features/applications/NewApplicationDialog';
-import { ResponsiveApplications } from '@/features/applications/ResponsiveApplications';
-import { SearchForm } from '@/features/applications/SearchForm';
+import { NewApplicationModal } from '@/features/applications/components/new-application-dialog';
+import { ResponsiveApplications } from '@/features/applications/components/reponsive-applications';
+import { SearchForm } from '@/features/applications/components/search-form';
 import {
   getApplications,
   searchApplications,

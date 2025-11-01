@@ -22,7 +22,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Application, Status } from '@prisma/client';
 import { useActionState, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { updateApplication } from '../actions';
+import { updateApplication } from '@/features/applications/actions';
 import { UpdateApplication } from '../useUpdateApplicationMutation';
 
 interface UpdateApplicationModalProps {

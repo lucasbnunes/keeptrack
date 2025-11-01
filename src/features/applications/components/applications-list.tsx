@@ -1,7 +1,7 @@
 import { StatusBadge } from '@/features/applications/components/status-badge';
 import { useDateFormat } from '@/hooks/useDateFormat';
 import { Application } from '@prisma/client';
-import { UpdateApplicationDialog } from '../UpdateApplicationDialog';
+import { UpdateApplicationDialog } from './update-application-dialog';
 
 interface ApplicationListProps {
   applications: Application[];

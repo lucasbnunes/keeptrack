@@ -2,8 +2,8 @@
 
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Application } from '@prisma/client';
-import { ApplicationsTable } from '@/features/applications/ApplicationsTable';
-import { ApplicationsList } from '@/features/applications/ApplicationsList';
+import { ApplicationsTable } from '@/features/applications/components/applications-table';
+import { ApplicationsList } from '@/features/applications/components/applications-list';
 
 interface ResponsiveApplicationsProps {
   applications: Application[];
