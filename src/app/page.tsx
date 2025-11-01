@@ -1,5 +1,5 @@
 import { Logo } from '@/components/logo';
-import { SignInButton } from '@/features/auth/SignInButton';
+import { SignInButton } from '@/features/auth/sign-in-button';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
