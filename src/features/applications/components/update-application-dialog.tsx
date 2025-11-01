@@ -23,7 +23,11 @@ import { Application, Status } from '@prisma/client';
 import { useActionState, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { updateApplication } from '@/features/applications/actions';
-import { UpdateApplication } from '../useUpdateApplicationMutation';
+
+type UpdateApplication = Pick<
+  Application,
+  'title' | 'company' | 'notes' | 'status' | 'id'
+>;
 
 interface UpdateApplicationModalProps {
   application: Application;
