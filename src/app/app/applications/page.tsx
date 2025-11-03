@@ -1,6 +1,4 @@
-import { NewApplicationModal } from '@/features/applications/components/new-application-dialog';
-import { ResponsiveApplications } from '@/features/applications/components/reponsive-applications';
-import { SearchForm } from '@/features/applications/components/search-form';
+import { ApplicationsKanban } from '@/features/applications/components/applications-kanban';
 import {
   getApplications,
   searchApplications,
@@ -34,11 +32,10 @@ export default async function Applications({
   }
 
   return (
-    <div className="mx-auto mt-10 max-w-7xl px-4 xl:mt-20">
-      <NewApplicationModal />
-
-      <SearchForm />
-      <ResponsiveApplications applications={applications} />
+    <div className="mx-auto mt-10 px-4 xl:mt-20">
+      <div className="container mx-auto">
+        <ApplicationsKanban applications={applications} />
+      </div>
     </div>
   );
 }
