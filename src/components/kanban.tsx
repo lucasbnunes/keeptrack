@@ -53,7 +53,7 @@ export function KanbanColumn({
     <div
       ref={setNodeRef}
       className={cn(
-        'max-w-[80vw] shrink-0 basis-xs rounded-md border p-4 transition-[height]',
+        'min-w-3xs rounded-md border p-4 transition-[height] sm:min-w-xs',
       )}
     >
       {children}
