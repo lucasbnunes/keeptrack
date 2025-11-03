@@ -5,18 +5,32 @@ import {
   DndContext,
   DndContextProps,
   DragOverlay,
+  DragOverlayProps,
   useDroppable,
 } from '@dnd-kit/core';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 export const KanbanSortableContext = SortableContext;
-export const KanbanDragOverlay = DragOverlay;
+
+export function KanbanDragOverlay({
+  children,
+  className,
+  ...props
+}: DragOverlayProps) {
+  return (
+    <DragOverlay className={cn('cursor-grabbing', className)}>
+      {children}
+    </DragOverlay>
+  );
+}
 
 export function KanbanBoard({ children, ...props }: DndContextProps) {
   return (
     <DndContext {...props}>
-      <div className="flex h-full gap-4">{children}</div>
+      <div className="flex h-full items-start gap-6 overflow-x-auto py-8 transition-[height]">
+        {children}
+      </div>
     </DndContext>
   );
 }
@@ -28,7 +42,7 @@ export function KanbanColumn({
   children?: React.ReactNode;
   id: string;
 }) {
-  const { isOver, setNodeRef } = useDroppable({
+  const { setNodeRef } = useDroppable({
     id,
     data: {
       type: 'column',
@@ -36,13 +50,48 @@ export function KanbanColumn({
   });
 
   return (
-    <ul
+    <div
       ref={setNodeRef}
       className={cn(
-        'border-accent flex h-80 max-w-sm flex-col gap-2 border p-4',
-        isOver && 'border-accent-foreground',
+        'max-w-[80vw] shrink-0 basis-xs rounded-md border p-4 transition-[height]',
       )}
     >
+      {children}
+    </div>
+  );
+}
+
+export function KanbanColumnHeader({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('mt-2 mb-6', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+export function KanbanColumnTitle({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<'h3'>) {
+  return (
+    <h3 className={cn('font-semibold', className)} {...props}>
+      {children}
+    </h3>
+  );
+}
+
+export function KanbanColumnList({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<'ul'>) {
+  return (
+    <ul className={cn('flex min-h-20 flex-col gap-4', className)} {...props}>
       {children}
     </ul>
   );
@@ -51,10 +100,11 @@ export function KanbanColumn({
 export function KanbanSortableItem({
   children,
   id,
+  ...props
 }: {
   children: React.ReactNode;
   id: string;
-}) {
+} & React.ComponentProps<'li'>) {
   const {
     attributes,
     listeners,
@@ -78,14 +128,12 @@ export function KanbanSortableItem({
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className={cn('list-none', isDragging && 'invisible')}
+      className={cn('touch-none list-none', isDragging && 'invisible')}
+      data-dragging={isDragging}
       style={style}
+      {...props}
     >
       {children}
     </li>
   );
-}
-
-export function KanbanItem({ children }: { children: React.ReactNode }) {
-  return <div className="border border-amber-400 p-2">{children}</div>;
 }
