@@ -23,7 +23,7 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { Status } from '@prisma/client';
+import { Application, Status } from '@prisma/client';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { KanbanItem } from './kanban-item';
@@ -36,22 +36,47 @@ const titlesMap: { [k in Status]: string } = {
   not_selected: 'Not selected',
 };
 
-const placeholderApplication = {
-  id: 'a1',
-  title: 'Front-end engineer',
-  applicationDate: new Date(),
-  company: 'Xpto',
-};
+type BoardItems = { [k in Status]: string[] };
 
-export function ApplicationsKanban() {
-  const [itemBeingDragged, setItemBeingDragged] = useState<string | null>();
-  const [boardItems, setBoardItems] = useState<{ [k in Status]: string[] }>({
-    applied: ['x'],
+function applicationsToBoardItems(applications: Application[]): BoardItems {
+  const boardItems: BoardItems = {
+    applied: [],
     not_selected: [],
-    offer_received: ['y', 'c'],
+    offer_received: [],
     offer_refused: [],
-    hired: ['z'],
+    hired: [],
+  };
+
+  applications.forEach((application) => {
+    boardItems[application.status].push(application.id);
   });
+
+  return boardItems;
+}
+
+function applicationsAsMap(applications: Application[]): {
+  [k: Application['id']]: Application;
+} {
+  let mappedApplications: { [k: Application['id']]: Application } = {};
+
+  applications.forEach((application) => {
+    mappedApplications[application.id] = application;
+  });
+
+  return mappedApplications;
+}
+
+interface ApplicationsKanbanProps {
+  applications: Application[];
+}
+
+export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
+  const [itemBeingDragged, setItemBeingDragged] = useState<string | null>();
+  const [boardItems, setBoardItems] = useState<BoardItems>(
+    applicationsToBoardItems(applications),
+  );
+  const applicationsMap = applicationsAsMap(applications);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -157,7 +182,7 @@ export function ApplicationsKanban() {
             <KanbanColumnList>
               {items.map((item) => (
                 <KanbanSortableItem key={item} id={item}>
-                  <KanbanItem application={placeholderApplication} />
+                  <KanbanItem application={applicationsMap[item]} />
                 </KanbanSortableItem>
               ))}
             </KanbanColumnList>
@@ -167,7 +192,10 @@ export function ApplicationsKanban() {
 
       <KanbanDragOverlay>
         {itemBeingDragged && (
-          <KanbanItem application={placeholderApplication} isBeingDragged />
+          <KanbanItem
+            application={applicationsMap[itemBeingDragged]}
+            isBeingDragged
+          />
         )}
       </KanbanDragOverlay>
     </KanbanBoard>
