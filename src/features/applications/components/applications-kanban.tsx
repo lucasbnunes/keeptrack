@@ -1,31 +1,32 @@
 'use client';
 
 import {
-  DragStartEvent,
-  DragEndEvent,
-  DragOverEvent,
-  useSensors,
-  PointerSensor,
-  KeyboardSensor,
-  useSensor,
-  closestCenter,
-  Active,
-  Over,
-  UniqueIdentifier,
-} from '@dnd-kit/core';
-import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import {
   KanbanBoard,
   KanbanColumn,
+  KanbanColumnHeader,
   KanbanColumnList,
   KanbanColumnTitle,
   KanbanDragOverlay,
-  KanbanItem,
   KanbanSortableContext,
   KanbanSortableItem,
 } from '@/components/kanban';
-import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Active,
+  DragEndEvent,
+  DragOverEvent,
+  DragStartEvent,
+  KeyboardSensor,
+  Over,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Status } from '@prisma/client';
+import { Plus } from 'lucide-react';
+import { useState } from 'react';
+import { KanbanItem } from './kanban-item';
 
 const titlesMap: { [k in Status]: string } = {
   applied: 'Applied',
@@ -35,17 +36,29 @@ const titlesMap: { [k in Status]: string } = {
   not_selected: 'Not selected',
 };
 
+const placeholderApplication = {
+  id: 'a1',
+  title: 'Front-end engineer',
+  applicationDate: new Date(),
+  company: 'Xpto',
+};
+
 export function ApplicationsKanban() {
   const [itemBeingDragged, setItemBeingDragged] = useState<string | null>();
   const [boardItems, setBoardItems] = useState<{ [k in Status]: string[] }>({
     applied: ['x'],
+    not_selected: [],
     offer_received: ['y', 'c'],
     offer_refused: [],
     hired: ['z'],
-    not_selected: [],
   });
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        delay: 100,
+        tolerance: 5,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
@@ -72,24 +85,15 @@ export function ApplicationsKanban() {
     setItemBeingDragged(null);
   }
 
-  function moveItemInsideColumn(
-    columnId: keyof typeof boardItems,
-    active: Active,
-    over: Over,
-  ) {
-    const oldIndex = boardItems[columnId as keyof typeof boardItems].indexOf(
-      String(active.id),
-    );
-    const newIndex = boardItems[columnId as keyof typeof boardItems].indexOf(
-      String(over.id),
-    );
-    setBoardItems((board) => ({
-      ...board,
-      [columnId]: arrayMove(
-        board[columnId as keyof typeof board],
-        oldIndex,
-        newIndex,
-      ),
+  function moveItemInsideColumn(columnId: Status, active: Active, over: Over) {
+    const oldIndex = boardItems[columnId].indexOf(String(active.id));
+    const newIndex = boardItems[columnId].indexOf(String(over.id));
+
+    const columnItems = boardItems[columnId];
+
+    setBoardItems((boardItems) => ({
+      ...boardItems,
+      [columnId]: arrayMove(columnItems, oldIndex, newIndex),
     }));
   }
 
@@ -103,7 +107,7 @@ export function ApplicationsKanban() {
     const targetId = isOverColumn
       ? over.id
       : over.data.current?.sortable.containerId;
-    console.log(over);
+
     const isOverDifferentColumn =
       active.data.current?.sortable.containerId !== targetId;
 
@@ -112,22 +116,20 @@ export function ApplicationsKanban() {
     }
   }
 
-  function moveItemToTargetColumn(active: Active, targetId: UniqueIdentifier) {
-    const activeContainerId = active.data.current?.sortable
-      .containerId as keyof typeof boardItems;
+  function moveItemToTargetColumn(active: Active, targetId: Status) {
+    const oldColumnId: Status = active.data.current?.sortable.containerId;
     const activeItemId = active.id;
+
+    const oldColumnWithoutActiveItem = boardItems[oldColumnId].filter(
+      (item) => item !== active.id,
+    );
+    const targetColumnWithActiveItem = [...boardItems[targetId], activeItemId];
 
     setBoardItems((board) => ({
       ...board,
-      [activeContainerId]: board[activeContainerId].filter(
-        (item) => item !== active.id,
-      ),
-      [targetId]: [...board[targetId as keyof typeof boardItems], activeItemId],
+      [oldColumnId]: oldColumnWithoutActiveItem,
+      [targetId]: targetColumnWithActiveItem,
     }));
-  }
-
-  function checkIfTargetIsColumn(over: Over) {
-    return over.data.current?.type === 'column';
   }
 
   return (
@@ -140,13 +142,22 @@ export function ApplicationsKanban() {
       {Object.entries(boardItems).map(([status, items]) => (
         <KanbanSortableContext key={status} id={status} items={items}>
           <KanbanColumn key={status} id={status}>
-            <KanbanColumnTitle>
-              {titlesMap[status as keyof typeof boardItems]}
-            </KanbanColumnTitle>
+            <KanbanColumnHeader className="relative flex items-center gap-3">
+              <KanbanColumnTitle>
+                {titlesMap[status as Status]}
+              </KanbanColumnTitle>
+              <span className="bg-accent flex size-5 items-center justify-center rounded-md text-xs">
+                {items.length}
+              </span>
+
+              <Button size="icon-sm" variant="outline" className="ml-auto">
+                <Plus />
+              </Button>
+            </KanbanColumnHeader>
             <KanbanColumnList>
               {items.map((item) => (
                 <KanbanSortableItem key={item} id={item}>
-                  <KanbanItem>{item}</KanbanItem>
+                  <KanbanItem application={placeholderApplication} />
                 </KanbanSortableItem>
               ))}
             </KanbanColumnList>
@@ -155,7 +166,9 @@ export function ApplicationsKanban() {
       ))}
 
       <KanbanDragOverlay>
-        {itemBeingDragged ? <KanbanItem>{itemBeingDragged}</KanbanItem> : null}
+        {itemBeingDragged && (
+          <KanbanItem application={placeholderApplication} isBeingDragged />
+        )}
       </KanbanDragOverlay>
     </KanbanBoard>
   );
