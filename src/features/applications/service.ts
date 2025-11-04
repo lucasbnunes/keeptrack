@@ -46,3 +46,20 @@ export async function searchApplications(
 
   return applications;
 }
+
+export async function updateApplication({
+  id,
+  userId,
+  ...application
+}: {
+  id: Application['id'];
+  userId: Application['userId'];
+} & Omit<Partial<Application>, 'createdAt'>) {
+  return await prisma.application.update({
+    data: application,
+    where: {
+      id,
+      userId,
+    },
+  });
+}

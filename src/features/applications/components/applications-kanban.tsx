@@ -27,6 +27,7 @@ import { Application, Status } from '@prisma/client';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { KanbanItem } from './kanban-item';
+import { updateApplicationStatus } from '../actions';
 
 const titlesMap: { [k in Status]: string } = {
   applied: 'Applied',
@@ -95,7 +96,7 @@ export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
     setItemBeingDragged(String(active.id));
   }
 
-  function handleDragEnd(event: DragEndEvent) {
+  async function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     const columnId = active.data.current?.sortable.containerId;
 
@@ -104,7 +105,9 @@ export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
     const isOverItem = over?.data.current?.type === 'item';
 
     if (isOverItem) {
+      const newStatus = over.data.current?.sortable.containerId;
       moveItemInsideColumn(columnId, active, over);
+      updateApplicationStatus(String(active.id), newStatus);
     }
 
     setItemBeingDragged(null);

@@ -5,6 +5,8 @@ import { prisma } from '@/lib/prisma';
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import z from 'zod';
+import { Application, Status } from '@prisma/client';
+import { updateApplication as updateApplicationService } from '@/features/applications/service';
 
 const newApplicationSchema = z.object({
   company: z.string().min(1),
@@ -107,4 +109,27 @@ export async function updateApplication(formData: FormData) {
     status: 200,
     data: application,
   };
+}
+
+export async function updateApplicationStatus(
+  applicationId: Application['id'],
+  newStatus: Status,
+) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return {
+      status: 401,
+    };
+  }
+
+  await updateApplicationService({
+    userId: session.user.id,
+    id: applicationId,
+    status: newStatus,
+  });
+
+  revalidatePath('/app/applications');
 }
