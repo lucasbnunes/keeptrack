@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus } from 'lucide-react';
 import { useActionState, useState } from 'react';
-import { createApplication } from '../actions';
+import { createApplicationAction } from '../actions';
 
 const tzOffsetInMilliseconds = new Date().getTimezoneOffset() * 60000;
 const defaultApplicationDate = new Date(Date.now() - tzOffsetInMilliseconds);
@@ -28,7 +28,7 @@ export function NewApplicationModal() {
   const [open, setOpen] = useState(false);
   const [_state, submitAction, isPending] = useActionState(
     async (_prevState: typeof initalActionState, formData: FormData) => {
-      const result = await createApplication(formData);
+      const result = await createApplicationAction(formData);
 
       if (result.status === 200) {
         setOpen(false);
