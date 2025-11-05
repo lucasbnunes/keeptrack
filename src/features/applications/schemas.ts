@@ -12,5 +12,7 @@ export const createApplicationSchema: z.ZodType<CreateApplicationFields> =
     company: z.string().min(1),
     notes: z.string().nullable(),
     status: z.enum(Status),
-    applicationDate: z.date(),
+    applicationDate: z
+      .string()
+      .transform((dateAsString) => new Date(dateAsString)),
   });

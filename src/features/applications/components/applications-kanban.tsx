@@ -25,9 +25,10 @@ import {
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Application, Status } from '@prisma/client';
 import { Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { KanbanItem } from './kanban-item';
 import { updateApplicationStatus } from '../actions';
+import CreateApplicationSheet from './create-application-sheet';
 
 const titlesMap: { [k in Status]: string } = {
   applied: 'Applied',
@@ -77,6 +78,10 @@ export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
     applicationsToBoardItems(applications),
   );
   const applicationsMap = applicationsAsMap(applications);
+
+  useEffect(() => {
+    setBoardItems(applicationsToBoardItems(applications));
+  }, [applications]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -178,9 +183,11 @@ export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
                 {items.length}
               </span>
 
-              <Button size="icon-sm" variant="outline" className="ml-auto">
-                <Plus />
-              </Button>
+              <CreateApplicationSheet defaultStatus={status as Status}>
+                <Button size="icon-sm" variant="outline" className="ml-auto">
+                  <Plus />
+                </Button>
+              </CreateApplicationSheet>
             </KanbanColumnHeader>
             <KanbanColumnList>
               {items.map((item) => (
