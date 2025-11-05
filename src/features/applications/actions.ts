@@ -8,9 +8,10 @@ import z from 'zod';
 import { Application, Status } from '@prisma/client';
 import {
   createApplication,
+  updateApplication,
   updateApplication as updateApplicationService,
 } from '@/features/applications/service';
-import { createApplicationSchema } from './schemas';
+import { createApplicationSchema, updateApplicationSchema } from './schemas';
 
 // TODO: refine validation and error handling
 export async function createApplicationAction(formData: FormData) {
@@ -43,17 +44,9 @@ export async function createApplicationAction(formData: FormData) {
   };
 }
 
-const updateApplicationSchema = z.object({
-  id: z.string().min(1),
-  company: z.string().min(1),
-  title: z.string().min(1),
-  notes: z.string(),
-});
-
-export async function updateApplication(formData: FormData) {
+export async function updateApplicationAction(formData: FormData) {
   const values = Object.fromEntries(formData);
   const parsed = updateApplicationSchema.safeParse(values);
-  console.log(parsed);
 
   if (!parsed.success) {
     return {
@@ -71,17 +64,7 @@ export async function updateApplication(formData: FormData) {
     };
   }
 
-  const application = await prisma.application.update({
-    data: {
-      company: parsed.data.company,
-      title: parsed.data.title,
-      notes: parsed.data.notes,
-      status: 'applied',
-    },
-    where: {
-      id: parsed.data.id,
-    },
-  });
+  const application = await updateApplication(session.user.id, parsed.data);
 
   revalidatePath('/app/applications');
 
@@ -105,8 +88,7 @@ export async function updateApplicationStatus(
     };
   }
 
-  await updateApplicationService({
-    userId: session.user.id,
+  await updateApplicationService(session.user.id, {
     id: applicationId,
     status: newStatus,
   });

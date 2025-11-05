@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { Application, User, Prisma } from '@prisma/client';
-import { CreateApplicationFields } from './schemas';
+import { CreateApplicationFields, UpdateApplicationFields } from './schemas';
 
 export async function getApplications(
   userId: User['id'],
@@ -48,14 +48,10 @@ export async function searchApplications(
   return applications;
 }
 
-export async function updateApplication({
-  id,
-  userId,
-  ...application
-}: {
-  id: Application['id'];
-  userId: Application['userId'];
-} & Omit<Partial<Application>, 'createdAt'>) {
+export async function updateApplication(
+  userId: User['id'],
+  { id, ...application }: UpdateApplicationFields,
+) {
   return await prisma.application.update({
     data: application,
     where: {

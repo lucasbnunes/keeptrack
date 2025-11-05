@@ -22,7 +22,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Application, Status } from '@prisma/client';
 import { useActionState, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { updateApplication } from '@/features/applications/actions';
+import { updateApplicationAction } from '@/features/applications/actions';
 
 type UpdateApplication = Pick<
   Application,
@@ -88,7 +88,7 @@ export function UpdateApplicationDialog({
 
   const [_actionState, submitAction, isPending] = useActionState(
     async (_prevState: typeof initalActionState, formData: FormData) => {
-      const result = await updateApplication(formData);
+      const result = await updateApplicationAction(formData);
 
       if (result.status === 200) {
         setOpen(false);
