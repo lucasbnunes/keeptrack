@@ -29,6 +29,7 @@ import { useEffect, useState } from 'react';
 import { KanbanItem } from './kanban-item';
 import { updateApplicationStatus } from '../actions';
 import CreateApplicationSheet from './create-application-sheet';
+import ApplicationDetailsSheet from './application-details-sheet';
 
 const titlesMap: { [k in Status]: string } = {
   applied: 'Applied',
@@ -73,6 +74,7 @@ interface ApplicationsKanbanProps {
 }
 
 export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
+  const [selected, setSelected] = useState<Application | null>(null);
   const [itemBeingDragged, setItemBeingDragged] = useState<string | null>();
   const [boardItems, setBoardItems] = useState<BoardItems>(
     applicationsToBoardItems(applications),
@@ -166,48 +168,60 @@ export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
   }
 
   return (
-    <KanbanBoard
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragOver={handleDragOver}
-      sensors={sensors}
-    >
-      {Object.entries(boardItems).map(([status, items]) => (
-        <KanbanSortableContext key={status} id={status} items={items}>
-          <KanbanColumn key={status} id={status}>
-            <KanbanColumnHeader className="relative flex items-center gap-3">
-              <KanbanColumnTitle>
-                {titlesMap[status as Status]}
-              </KanbanColumnTitle>
-              <span className="bg-accent flex size-5 items-center justify-center rounded-md text-xs">
-                {items.length}
-              </span>
+    <>
+      <ApplicationDetailsSheet
+        application={selected}
+        open={!!selected}
+        onOpenChange={(open) => !open && setSelected(null)}
+      />
 
-              <CreateApplicationSheet defaultStatus={status as Status}>
-                <Button size="icon-sm" variant="outline" className="ml-auto">
-                  <Plus />
-                </Button>
-              </CreateApplicationSheet>
-            </KanbanColumnHeader>
-            <KanbanColumnList>
-              {items.map((item) => (
-                <KanbanSortableItem key={item} id={item}>
-                  <KanbanItem application={applicationsMap[item]} />
-                </KanbanSortableItem>
-              ))}
-            </KanbanColumnList>
-          </KanbanColumn>
-        </KanbanSortableContext>
-      ))}
+      <KanbanBoard
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragOver={handleDragOver}
+        sensors={sensors}
+      >
+        {Object.entries(boardItems).map(([status, items]) => (
+          <KanbanSortableContext key={status} id={status} items={items}>
+            <KanbanColumn key={status} id={status}>
+              <KanbanColumnHeader className="relative flex items-center gap-3">
+                <KanbanColumnTitle>
+                  {titlesMap[status as Status]}
+                </KanbanColumnTitle>
+                <span className="bg-accent flex size-5 items-center justify-center rounded-md text-xs">
+                  {items.length}
+                </span>
 
-      <KanbanDragOverlay>
-        {itemBeingDragged && (
-          <KanbanItem
-            application={applicationsMap[itemBeingDragged]}
-            isBeingDragged
-          />
-        )}
-      </KanbanDragOverlay>
-    </KanbanBoard>
+                <CreateApplicationSheet defaultStatus={status as Status}>
+                  <Button size="icon-sm" variant="outline" className="ml-auto">
+                    <Plus />
+                  </Button>
+                </CreateApplicationSheet>
+              </KanbanColumnHeader>
+              <KanbanColumnList>
+                {items.map((item) => (
+                  <KanbanSortableItem
+                    id={item}
+                    key={item}
+                    onClick={() => setSelected(applicationsMap[item])}
+                  >
+                    <KanbanItem application={applicationsMap[item]} />
+                  </KanbanSortableItem>
+                ))}
+              </KanbanColumnList>
+            </KanbanColumn>
+          </KanbanSortableContext>
+        ))}
+
+        <KanbanDragOverlay>
+          {itemBeingDragged && (
+            <KanbanItem
+              application={applicationsMap[itemBeingDragged]}
+              isBeingDragged
+            />
+          )}
+        </KanbanDragOverlay>
+      </KanbanBoard>
+    </>
   );
 }
