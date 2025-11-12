@@ -4,7 +4,6 @@ import { CreateApplicationFields, UpdateApplicationFields } from './schemas';
 
 export async function getApplications(
   userId: User['id'],
-  searchTerm?: string,
 ): Promise<Application[]> {
   const applications = await prisma.application.findMany({
     where: {
@@ -16,6 +15,19 @@ export async function getApplications(
   });
 
   return applications;
+}
+export async function getApplication(
+  userId: User['id'],
+  id: Application['id'],
+): Promise<Application | null> {
+  const application = await prisma.application.findUnique({
+    where: {
+      id,
+      userId,
+    },
+  });
+
+  return application;
 }
 
 export async function searchApplications(

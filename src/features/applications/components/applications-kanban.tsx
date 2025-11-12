@@ -29,7 +29,7 @@ import { useEffect, useState } from 'react';
 import { KanbanItem } from './kanban-item';
 import { updateApplicationStatus } from '../actions';
 import CreateApplicationSheet from './create-application-sheet';
-import ApplicationDetailsSheet from './application-details-sheet';
+import { ApplicationDetailsSheet } from './application-details-sheet';
 
 const titlesMap: { [k in Status]: string } = {
   applied: 'Applied',
@@ -74,7 +74,7 @@ interface ApplicationsKanbanProps {
 }
 
 export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
-  const [selected, setSelected] = useState<Application | null>(null);
+  const [selected, setSelected] = useState<Application['id'] | null>(null);
   const [itemBeingDragged, setItemBeingDragged] = useState<string | null>();
   const [boardItems, setBoardItems] = useState<BoardItems>(
     applicationsToBoardItems(applications),
@@ -170,7 +170,7 @@ export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
   return (
     <>
       <ApplicationDetailsSheet
-        application={selected}
+        application={selected ? applicationsMap[selected] : null}
         open={!!selected}
         onOpenChange={(open) => !open && setSelected(null)}
       />
@@ -203,7 +203,7 @@ export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
                   <KanbanSortableItem
                     id={item}
                     key={item}
-                    onClick={() => setSelected(applicationsMap[item])}
+                    onClick={() => setSelected(item)}
                   >
                     <KanbanItem application={applicationsMap[item]} />
                   </KanbanSortableItem>
