@@ -167,6 +167,8 @@ export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
     }));
   }
 
+  console.log({ boardItems, applicationsMap });
+
   return (
     <>
       <ApplicationDetailsSheet
@@ -199,15 +201,19 @@ export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
                 </CreateApplicationSheet>
               </KanbanColumnHeader>
               <KanbanColumnList>
-                {items.map((item) => (
-                  <KanbanSortableItem
-                    id={item}
-                    key={item}
-                    onClick={() => setSelected(item)}
-                  >
-                    <KanbanItem application={applicationsMap[item]} />
-                  </KanbanSortableItem>
-                ))}
+                {items.map((item) => {
+                  if (applicationsMap[item]) {
+                    return (
+                      <KanbanSortableItem
+                        id={item}
+                        key={item}
+                        onClick={() => setSelected(item)}
+                      >
+                        <KanbanItem application={applicationsMap[item]} />
+                      </KanbanSortableItem>
+                    );
+                  }
+                })}
               </KanbanColumnList>
             </KanbanColumn>
           </KanbanSortableContext>
