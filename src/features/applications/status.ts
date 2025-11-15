@@ -5,17 +5,17 @@ export const STATUS_METADATA: {
     title: string;
   };
 } = {
+  saved: {
+    title: 'Saved',
+  },
   applied: {
     title: 'Applied',
   },
-  not_selected: {
-    title: 'Not selected',
+  interview: {
+    title: 'Interview',
   },
   offer_received: {
     title: 'Offer received',
-  },
-  offer_refused: {
-    title: 'Offer refused',
   },
   hired: {
     title: 'Hired',

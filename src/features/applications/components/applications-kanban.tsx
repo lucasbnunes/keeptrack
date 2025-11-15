@@ -30,23 +30,16 @@ import { KanbanItem } from './kanban-item';
 import { updateApplicationStatus } from '../actions';
 import CreateApplicationSheet from './create-application-sheet';
 import { ApplicationDetailsSheet } from './application-details-sheet';
-
-const titlesMap: { [k in Status]: string } = {
-  applied: 'Applied',
-  offer_received: 'Offer received',
-  offer_refused: 'Offer refused',
-  hired: 'Hired',
-  not_selected: 'Not selected',
-};
+import { STATUS_METADATA } from '../status';
 
 type BoardItems = { [k in Status]: string[] };
 
 function applicationsToBoardItems(applications: Application[]): BoardItems {
   const boardItems: BoardItems = {
+    saved: [],
     applied: [],
-    not_selected: [],
+    interview: [],
     offer_received: [],
-    offer_refused: [],
     hired: [],
   };
 
@@ -188,7 +181,7 @@ export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
             <KanbanColumn key={status} id={status}>
               <KanbanColumnHeader className="relative flex items-center gap-3">
                 <KanbanColumnTitle>
-                  {titlesMap[status as Status]}
+                  {STATUS_METADATA[status as Status].title}
                 </KanbanColumnTitle>
                 <span className="bg-accent flex size-5 items-center justify-center rounded-md text-xs">
                   {items.length}
