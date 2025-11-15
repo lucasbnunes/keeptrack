@@ -8,6 +8,7 @@ import z from 'zod';
 import { Application, Status } from '@prisma/client';
 import {
   createApplication,
+  deleteApplication,
   updateApplication,
   updateApplication as updateApplicationService,
 } from '@/features/applications/service';
@@ -94,4 +95,26 @@ export async function updateApplicationStatus(
   });
 
   revalidatePath('/app/applications');
+}
+
+export async function deleteApplicationAction(
+  applicationId: Application['id'],
+) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return {
+      status: 401,
+    };
+  }
+
+  await deleteApplication(session.user.id, applicationId);
+
+  revalidatePath('/app/applications');
+
+  return {
+    status: 200,
+  };
 }

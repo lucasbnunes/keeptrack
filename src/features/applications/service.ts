@@ -93,3 +93,15 @@ export async function createApplication(
     },
   });
 }
+
+export async function deleteApplication(
+  userId: User['id'],
+  id: Application['id'],
+) {
+  return await prisma.application.delete({
+    where: {
+      id,
+      userId,
+    },
+  });
+}
