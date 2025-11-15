@@ -24,6 +24,7 @@ import { format } from 'date-fns';
 import { SquarePen } from 'lucide-react';
 import { useState } from 'react';
 import { UpdateApplicationForm } from './update-application-form';
+import { DeleteConfirmationDialog } from './delete-confirmation-dialog';
 
 interface ApplicationDetailsSheetProps {
   application: Application | null;
@@ -118,6 +119,13 @@ export function ApplicationDetailsSheet({
         </div>
 
         <SheetFooter>
+          <DeleteConfirmationDialog
+            applicationId={application.id}
+            onDelete={() => onOpenChange(false)}
+          >
+            <Button variant="destructive">Delete</Button>
+          </DeleteConfirmationDialog>
+
           <SheetClose asChild>
             <Button variant="secondary">Close</Button>
           </SheetClose>
