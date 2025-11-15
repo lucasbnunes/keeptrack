@@ -70,10 +70,10 @@ model Verification {
 }
 
 enum Status {
+  saved
   applied
+  interview
   offer_received
-  offer_refused
-  not_selected
   hired
 }
 
