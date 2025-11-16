@@ -28,7 +28,7 @@ export const updateApplicationSchema = z.object({
     .string()
     .transform((dateAsString) => new Date(dateAsString))
     .optional(),
-  jobUrl: z.url().nullable(),
+  jobUrl: z.url().nullable().optional(),
 });
 
 export type UpdateApplicationFields = z.output<typeof updateApplicationSchema>;
