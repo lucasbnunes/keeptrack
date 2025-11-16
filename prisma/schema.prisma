@@ -88,4 +88,5 @@ model Application {
   applicationDate DateTime
   createdAt       DateTime
   updatedAt       DateTime @updatedAt
+  jobUrl          String?  @db.Text
 }
