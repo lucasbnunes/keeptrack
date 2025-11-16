@@ -15,6 +15,7 @@ export const createApplicationSchema: z.ZodType<CreateApplicationFields> =
     applicationDate: z
       .string()
       .transform((dateAsString) => new Date(dateAsString)),
+    jobUrl: z.url().nullable(),
   });
 
 export const updateApplicationSchema = z.object({
@@ -27,6 +28,7 @@ export const updateApplicationSchema = z.object({
     .string()
     .transform((dateAsString) => new Date(dateAsString))
     .optional(),
+  jobUrl: z.url().nullable(),
 });
 
 export type UpdateApplicationFields = z.output<typeof updateApplicationSchema>;

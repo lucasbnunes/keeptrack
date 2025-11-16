@@ -71,6 +71,11 @@ export function CreateApplicationForm({
       </Field>
 
       <Field>
+        <FieldLabel htmlFor="jobUrl">Job URL</FieldLabel>
+        <Input name="jobUrl" id="jobUrl" disabled={isPending} />
+      </Field>
+
+      <Field>
         <FieldLabel htmlFor="notes">Notes</FieldLabel>
         <Textarea
           name="notes"

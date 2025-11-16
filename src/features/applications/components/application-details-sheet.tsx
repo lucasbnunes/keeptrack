@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/tooltip';
 import { Application } from '@prisma/client';
 import { format } from 'date-fns';
-import { SquarePen } from 'lucide-react';
+import { ExternalLink, SquarePen } from 'lucide-react';
 import { useState } from 'react';
 import { UpdateApplicationForm } from './update-application-form';
 import { DeleteConfirmationDialog } from './delete-confirmation-dialog';
@@ -93,6 +93,22 @@ export function ApplicationDetailsSheet({
                       {format(application.updatedAt, 'PPP')}
                     </DescriptionDetails>
                   </DescriptionGroup>
+                  {application.jobUrl && (
+                    <DescriptionGroup>
+                      <DescriptionTerm>Job URL</DescriptionTerm>
+                      <DescriptionDetails>
+                        <a
+                          href={application.jobUrl}
+                          className="flex items-start gap-3 hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {application.jobUrl}{' '}
+                          <ExternalLink className="text-muted-foreground size-4" />
+                        </a>
+                      </DescriptionDetails>
+                    </DescriptionGroup>
+                  )}
                   {application.notes && (
                     <DescriptionGroup>
                       <DescriptionTerm>Notes</DescriptionTerm>

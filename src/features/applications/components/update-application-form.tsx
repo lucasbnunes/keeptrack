@@ -10,7 +10,7 @@ import { UpdateApplicationFields } from '../schemas';
 interface CreateApplicationFormProps {
   formId: string;
   applicationId: UpdateApplicationFields['id'];
-  defaultValues?: Partial<Application>;
+  defaultValues?: UpdateApplicationFields;
   onSuccess?: (application: Application) => void;
   onPendingChange?: (pending: boolean) => void;
 }
@@ -74,6 +74,16 @@ export function UpdateApplicationForm({
           id="applicationDate"
           disabled={isPending}
           defaultValue={defaultValues?.applicationDate}
+        />
+      </Field>
+
+      <Field>
+        <FieldLabel htmlFor="jobUrl">Job URL</FieldLabel>
+        <Input
+          name="jobUrl"
+          id="jobUrl"
+          disabled={isPending}
+          defaultValue={defaultValues?.jobUrl || undefined}
         />
       </Field>
 
