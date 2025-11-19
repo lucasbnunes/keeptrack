@@ -16,6 +16,12 @@ export default async function Home() {
 
   return (
     <div className="from-background via-background to-secondary/5 min-h-svh bg-linear-to-br">
+      <nav className="border-border/40 bg-background/95 border-b backdrop-blur-sm">
+        <div className="mx-auto max-w-7xl px-6 py-4">
+          <Logo href="/" />
+        </div>
+      </nav>
+
       <section className="mx-auto max-w-7xl px-6 py-20 sm:py-32">
         <div className="text-center">
           <div className="bg-primary/10 text-primary mb-6 inline-block rounded-full px-4 py-2 text-sm font-medium">
