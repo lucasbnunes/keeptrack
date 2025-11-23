@@ -47,12 +47,12 @@ export function CreateApplicationForm({
     <form action={submitAction} className="flex flex-col gap-4" id={id}>
       <Field>
         <FieldLabel htmlFor="title">Job title</FieldLabel>
-        <Input name="title" id="title" disabled={isPending} />
+        <Input name="title" id="title" disabled={isPending} required />
       </Field>
 
       <Field>
         <FieldLabel htmlFor="company">Company</FieldLabel>
-        <Input name="company" id="company" disabled={isPending} />
+        <Input name="company" id="company" disabled={isPending} required />
       </Field>
 
       <Field>

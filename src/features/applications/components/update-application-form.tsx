@@ -54,6 +54,7 @@ export function UpdateApplicationForm({
           name="title"
           disabled={isPending}
           defaultValue={defaultValues?.title}
+          required
         />
       </Field>
 
@@ -64,6 +65,7 @@ export function UpdateApplicationForm({
           name="company"
           disabled={isPending}
           defaultValue={defaultValues?.company}
+          required
         />
       </Field>
 
