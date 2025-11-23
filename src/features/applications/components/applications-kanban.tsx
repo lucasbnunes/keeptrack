@@ -160,8 +160,6 @@ export function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
     }));
   }
 
-  console.log({ boardItems, applicationsMap });
-
   return (
     <>
       <ApplicationDetailsSheet
