@@ -79,12 +79,8 @@ export async function createApplication(
 ) {
   return await prisma.application.create({
     data: {
-      company: application.company,
-      title: application.title,
-      notes: application.notes,
-      status: application.status,
+      ...application,
       createdAt: new Date(),
-      applicationDate: application.applicationDate,
       user: {
         connect: {
           id: userId,
