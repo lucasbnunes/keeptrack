@@ -1,6 +1,8 @@
 import { Application, Status } from '@prisma/client';
 import z from 'zod';
 
+const emptyStringToUndefined = (s: string) => (!s ? undefined : s);
+
 export const createApplicationSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   company: z.string().min(1, 'Company is required'),
@@ -9,7 +11,7 @@ export const createApplicationSchema = z.object({
   applicationDate: z
     .string()
     .transform((dateAsString) => new Date(dateAsString)),
-  jobUrl: z.url().optional(),
+  jobUrl: z.preprocess(emptyStringToUndefined, z.url().optional()),
 });
 
 export type CreateApplicationFields = z.output<typeof createApplicationSchema>;
@@ -24,7 +26,7 @@ export const updateApplicationSchema = z.object({
     .string()
     .transform((dateAsString) => new Date(dateAsString))
     .optional(),
-  jobUrl: z.url().nullable().optional(),
+  jobUrl: z.preprocess(emptyStringToUndefined, z.url().nullable().optional()),
 });
 
 export type UpdateApplicationFields = z.output<typeof updateApplicationSchema>;
